@@ -50,3 +50,27 @@ Permite a desarrolladores y empresas desplegar aplicaciones a escala global **si
 
 ## 🎓 Relevancia en Integración de Aplicaciones Web (IAEW)
 En la arquitectura web moderna, las aplicaciones integradas (APIs REST, Microservicios, BFF, WebSockets y brokers de mensajería como RabbitMQ) se empaquetan en contenedores (**Docker**) y se despliegan sobre entornos Cloud (**PaaS / IaaS**) para lograr escalabilidad automática y alta disponibilidad.
+
+---
+
+## 🚀 4. Ventajas Principales de Cloud Computing
+
+1. **💰 Reducción de Costos (CapEx a OpEx):**
+   - Elimina la inversión inicial masiva en hardware y servidores físicos (**CapEx**).
+   - Se transforma en costo operativo (**OpEx**): pagas únicamente por los recursos que realmente consumes.
+
+2. **📈 Escalabilidad Elástica (Auto-scaling):**
+   - **Escalabilidad Horizontal:** Si tu web tiene un pico repentino de tráfico (ej. Black Friday / Hot Sale), la nube crea automáticamente 50 servidores adicionales y los destruye cuando el tráfico vuelve a la normalidad.
+   - **Escalabilidad Vertical:** Permite aumentar la RAM o procesador de un servidor en cuestión de segundos.
+
+3. **⏱️ Agilidad y Velocidad de Despliegue (Time to Market):**
+   - Comprar e instalar un servidor físico tradicional solía tardar semanas o meses. En la nube, aprovisionar un servidor o base de datos toma **segundos**.
+
+4. **🛡️ Alta Disponibilidad y Tolerancia a Fallos (High Availability):**
+   - Los proveedores globales cuentan con Data Centers redundantes repartidos en múltiples regiones geográficas. Si un servidor o data center sufre un desastre o corte eléctrico, el tráfico conmuta automáticamente a otro nodo sin interrumpir el servicio.
+
+5. **🌎 Alcance Global Inmediato:**
+   - Permite desplegar tu aplicación web cerca de tus usuarios en cualquier continente con un solo clic, reduciendo la latencia de red.
+
+6. **🛠️ Mantenimiento y Actualizaciones a cargo del Proveedor:**
+   - El proveedor maneja la seguridad física, aire acondicionado, parches de seguridad del hipervisor y reemplazo de hardware dañado.
