@@ -69,3 +69,61 @@ Imagínate que vas a un restaurante a cenar:
 Porque el cliente en el celular quiere un **"menú rápido"** (pocos datos para no gastar batería ni megas), mientras que el cliente en la computadora (Web) tiene pantalla grande y quiere el **"menú completo con todos los detalles"**.
 
 Cada BFF prepara la comida (los datos) en el tamaño y formato perfecto para su pantalla.
+
+---
+
+## 💻 Ejemplo Genérico en Código (Node.js / Express)
+
+### ❌ Sin BFF (La App Móvil tendría que hacer 3 peticiones por la red móvil):
+```javascript
+// La App móvil tendría que ejecutar esto en el teléfono:
+const usuario = await fetch('http://api.empresa.com/usuarios/123').then(r => r.json());
+const pedidos = await fetch('http://api.empresa.com/pedidos/123').then(r => r.json());
+const puntos  = await fetch('http://api.empresa.com/puntos/123').then(r => r.json());
+
+// Resultado: 3 viajes de red lentos sobre 4G/5G
+```
+
+### ✅ Con BFF (Un solo endpoint preparado para la pantalla del Celular):
+
+```javascript
+// Servidor BFF Móvil (bff-movil.js)
+const express = require('express');
+const app = express();
+
+// Endpoint único diseñado a la medida de la pantalla de inicio del Móvil
+app.get('/api/movil/inicio/:usuarioId', async (req, res) => {
+  const { usuarioId } = req.params;
+
+  try {
+    // 1. El BFF llama a los 3 microservicios internos en paralelo (red interna ultra rápida)
+    const [resUsuario, resPedidos, resPuntos] = await Promise.all([
+      fetch(`http://microservicio-usuarios/api/v1/users/${usuarioId}`),
+      fetch(`http://microservicio-pedidos/api/v1/orders?userId=${usuarioId}&limit=2`),
+      fetch(`http://microservicio-puntos/api/v1/points/${usuarioId}`)
+    ]);
+
+    const usuario = await resUsuario.json();
+    const pedidos = await resPedidos.json();
+    const puntos  = await resPuntos.json();
+
+    // 2. Agrega, simplifica y recorta los datos estrictamente necesarios para la UI
+    const payloadOptimizado = {
+      nombreCliente: usuario.nombreCompleto,
+      puntosAcumulados: puntos.totalPuntos,
+      ultimosPedidos: pedidos.map(p => ({
+        id: p.id,
+        estado: p.status,
+        total: `$${p.montoTotal}`
+      }))
+    };
+
+    // 3. Retorna todo listo en un solo paquete JSON
+    res.json(payloadOptimizado);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al cargar la pantalla de inicio' });
+  }
+});
+
+app.listen(3000, () => console.log('BFF Móvil corriendo en puerto 3000'));
+```
