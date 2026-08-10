@@ -1,5 +1,11 @@
-# Workspace Rules for D:\obsidian-utn
+# Workspace Rules: Obsidian UTN Vault
 
-- Location: `D:\obsidian-utn`
-- Every question asked by the user or knowledge generated must be documented in `obsidian/` (and `baul obsidian utn/`).
-- Automatically stage, commit, and push all new notes to GitHub (`git push origin main`) on every interaction.
+- **Vault Root:** `D:\obsidian-utn\`
+- **Note Organization:**
+  - `Notas/`: Academic notes, subject summaries, and topic notes.
+  - `Preguntas/`: User questions and answered queries.
+  - `Conocimientos/`: Core concepts and technical documentation.
+  - `Recursos/`: Images and attached assets.
+- **Automated Git Sync:**
+  - For every question asked or knowledge generated, create/update the Markdown note directly in `D:\obsidian-utn\`.
+  - Automatically run `git add .`, `git commit -m "docs: auto-save obsidian note - <topic>"`, and `git push origin main`.

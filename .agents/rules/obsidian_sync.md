@@ -1,9 +1,13 @@
-# Rule: Automatic Knowledge Storage & Git Push (D:\obsidian-utn)
+# Rule: Automatic Knowledge Storage & Git Sync
 
-For EVERY prompt, question, or knowledge interaction with the user in this workspace (`D:\obsidian-utn`):
-1. Save/update a corresponding Markdown note inside `D:\obsidian-utn\obsidian\Preguntas\`, `D:\obsidian-utn\obsidian\Notas\`, or `D:\obsidian-utn\obsidian\Conocimientos\` (and sync with `baul obsidian utn`).
-2. Format notes with clear headings, dates, user prompts, and detailed technical content.
-3. Automatically execute git commands in `D:\obsidian-utn`:
+Target Directory: `D:\obsidian-utn\`
+
+1. Every user query, concept, or academic knowledge must be written to its corresponding folder:
+   - `Notas/`
+   - `Preguntas/`
+   - `Conocimientos/`
+2. Notes must be structured with Markdown titles, dates, user prompts, and comprehensive answers.
+3. Automatically execute Git workflow:
    `git add .`
-   `git commit -m "docs: auto-save obsidian note - <topic>"`
+   `git commit -m "docs: auto-save note - <topic>"`
    `git push origin main`
