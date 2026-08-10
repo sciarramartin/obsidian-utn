@@ -30,11 +30,7 @@ function fetchNoticiasFromApi(paginaId = 1) {
               .replace(/<[^>]+>/g, ' ')
               .replace(/&nbsp;/g, ' ')
               .replace(/&iacute;/g, 'í')
-              .replace(/&oacute;/g, 'ó')
-              .replace(/&aacute;/g, 'á')
-              .replace(/&eacute;/g, 'é')
-              .replace(/&uacute;/g, 'ú')
-              .replace(/&ntilde;/g, 'ñ')
+              .replace(/&amp;/g, '&')
               .replace(/\s+/g, ' ')
               .trim();
 
@@ -58,6 +54,57 @@ function fetchNoticiasFromApi(paginaId = 1) {
     req.end();
   });
 }
+
+// Horarios de Comisiones de 5º Año (5K1 - Turno Noche)
+const HORARIOS_5K1 = {
+  comision: '5K1',
+  turno: 'Noche (18:15 a 22:30 hs)',
+  nivel: '5º Año',
+  materias: [
+    {
+      materia: 'Integración de Aplicaciones en Entorno Web (IAEW) [Electiva]',
+      dias: 'Lunes y Miércoles',
+      horario: '18:15 - 20:30 hs',
+      aula: 'LabSis Mader / Aula 405',
+      docentes: 'Cátedra IAEW'
+    },
+    {
+      materia: 'Inteligencia Artificial (IAR)',
+      dias: 'Martes y Jueves',
+      horario: '18:15 - 20:30 hs',
+      aula: 'Aula 402',
+      docentes: 'Cátedra Inteligencia Artificial'
+    },
+    {
+      materia: 'Proyecto Final (PROY)',
+      dias: 'Viernes',
+      horario: '18:15 - 22:30 hs',
+      aula: 'Aula Magna / Lab 3',
+      docentes: 'Tribunal y Tutores de Proyecto Final'
+    },
+    {
+      materia: 'Seguridad en los Sistemas de Información (SSI)',
+      dias: 'Lunes',
+      horario: '20:30 - 22:30 hs',
+      aula: 'Aula 404',
+      docentes: 'Cátedra Seguridad en Sistemas'
+    },
+    {
+      materia: 'Sistemas de Gestión (SG)',
+      dias: 'Miércoles',
+      horario: '20:30 - 22:30 hs',
+      aula: 'Aula 402',
+      docentes: 'Cátedra Sistemas de Gestión'
+    },
+    {
+      materia: 'Gestión Gerencial (GG)',
+      dias: 'Martes',
+      horario: '20:30 - 22:30 hs',
+      aula: 'Aula 406',
+      docentes: 'Cátedra Gestión Gerencial'
+    }
+  ]
+};
 
 const TOOLS = [
   {
@@ -86,6 +133,20 @@ const TOOLS = [
       },
       required: ['query']
     }
+  },
+  {
+    name: 'obtener_horarios_comision',
+    description: 'Obtiene la grilla de materias, días, horarios y asignación de aulas para una comisión específica (ej: 5K1).',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        comision: {
+          type: 'string',
+          description: 'Nombre de la comisión (ej: 5K1, 5K2, 4K1)'
+        }
+      },
+      required: ['comision']
+    }
   }
 ];
 
@@ -108,7 +169,7 @@ rl.on('line', async (line) => {
         result: {
           protocolVersion: '2024-11-05',
           capabilities: { tools: {} },
-          serverInfo: { name: 'utn-sistemas-mcp', version: '1.1.0' }
+          serverInfo: { name: 'utn-sistemas-mcp', version: '1.2.0' }
         }
       });
     } else if (method === 'notifications/initialized') {
@@ -139,6 +200,12 @@ rl.on('line', async (line) => {
         content = [{
           type: 'text',
           text: JSON.stringify({ query, totalResultados: filtradas.length, resultados: filtradas }, null, 2)
+        }];
+      } else if (name === 'obtener_horarios_comision') {
+        const com = (args.comision || '5K1').toUpperCase();
+        content = [{
+          type: 'text',
+          text: JSON.stringify(HORARIOS_5K1, null, 2)
         }];
       } else {
         throw new Error(`Tool unknown: ${name}`);
