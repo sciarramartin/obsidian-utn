@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "utn-sistemas": {
+      "command": "node",
+      "args": [
+        "D:\\obsidian-utn\\mcp_utn_sistemas\\index.js"
+      ]
+    }
+  }
+}
