@@ -111,6 +111,61 @@ const HORARIOS_5K1 = {
   ]
 };
 
+const EXAMENES_FINALES = {
+  turnoActual: 'Turno Noviembre / Diciembre 2026 (Exámenes Generales)',
+  periodoInscripcion: 'Hasta 48 hs hábiles antes de la mesa en Autogestión (SYSACAD)',
+  mesas: [
+    {
+      materia: 'Integración de Aplicaciones en Entorno Web (IAEW)',
+      nivel: '5º Año',
+      llamado1: '25/11/2026 - 18:00 hs',
+      llamado2: '09/12/2026 - 18:00 hs',
+      tribunal: 'Cátedra IAEW',
+      aula: 'LabSis Mader'
+    },
+    {
+      materia: 'Inteligencia Artificial (IAR)',
+      nivel: '5º Año',
+      llamado1: '26/11/2026 - 18:00 hs',
+      llamado2: '10/12/2026 - 18:00 hs',
+      tribunal: 'Cátedra Inteligencia Artificial',
+      aula: 'Aula 402'
+    },
+    {
+      materia: 'Proyecto Final (PROY)',
+      nivel: '5º Año',
+      llamado1: '27/11/2026 - 18:00 hs',
+      llamado2: '11/12/2026 - 18:00 hs',
+      tribunal: 'Tribunal Evaluador de Proyecto Final',
+      aula: 'Aula Magna / Lab 3'
+    },
+    {
+      materia: 'Seguridad en los Sistemas de Información (SSI)',
+      nivel: '5º Año',
+      llamado1: '23/11/2026 - 18:00 hs',
+      llamado2: '07/12/2026 - 18:00 hs',
+      tribunal: 'Cátedra Seguridad en Sistemas',
+      aula: 'Aula 404'
+    },
+    {
+      materia: 'Sistemas de Gestión (SG)',
+      nivel: '5º Año',
+      llamado1: '24/11/2026 - 18:00 hs',
+      llamado2: '08/12/2026 - 18:00 hs',
+      tribunal: 'Cátedra Sistemas de Gestión',
+      aula: 'Aula 402'
+    },
+    {
+      materia: 'Diseño de Sistemas de Información (DSI)',
+      nivel: '3º Año',
+      llamado1: '24/11/2026 - 18:00 hs',
+      llamado2: '08/12/2026 - 18:00 hs',
+      tribunal: 'Cátedra DSI',
+      aula: 'Aula 301'
+    }
+  ]
+};
+
 const TOOLS = [
   {
     name: 'get_utn_sistemas_novedades',
@@ -166,6 +221,19 @@ const TOOLS = [
       },
       required: ['query']
     }
+  },
+  {
+    name: 'obtener_fechas_examenes_finales',
+    description: 'Obtiene la lista oficial de fechas de exámenes finales (1º y 2º llamado), horarios y aulas por materia o nivel.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        materia: {
+          type: 'string',
+          description: 'Nombre opcional de la materia (ej: IAEW, Inteligencia Artificial, DSI)'
+        }
+      }
+    }
   }
 ];
 
@@ -188,7 +256,7 @@ rl.on('line', async (line) => {
         result: {
           protocolVersion: '2024-11-05',
           capabilities: { tools: {} },
-          serverInfo: { name: 'utn-sistemas-mcp', version: '1.3.0' }
+          serverInfo: { name: 'utn-sistemas-mcp', version: '1.4.0' }
         }
       });
     } else if (method === 'notifications/initialized') {
@@ -230,6 +298,20 @@ rl.on('line', async (line) => {
         content = [{
           type: 'text',
           text: JSON.stringify(resultado, null, 2)
+        }];
+      } else if (name === 'obtener_fechas_examenes_finales') {
+        let resultado = EXAMENES_FINALES.mesas;
+        if (args && args.materia) {
+          const matQuery = args.materia.toLowerCase();
+          resultado = resultado.filter(m => m.materia.toLowerCase().includes(matQuery));
+        }
+        content = [{
+          type: 'text',
+          text: JSON.stringify({
+            turno: EXAMENES_FINALES.turnoActual,
+            inscripcion: EXAMENES_FINALES.periodoInscripcion,
+            mesas: resultado
+          }, null, 2)
         }];
       } else {
         throw new Error(`Tool unknown: ${name}`);
