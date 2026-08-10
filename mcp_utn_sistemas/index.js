@@ -1,84 +1,90 @@
 #!/usr/bin/env node
 const https = require('https');
+const querystring = require('querystring');
 const readline = require('readline');
 
-function fetchUrl(url) {
+function fetchNoticiasFromApi(paginaId = 1) {
   return new Promise((resolve, reject) => {
-    https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' } }, (res) => {
-      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-        let redirectUrl = res.headers.location;
-        if (!redirectUrl.startsWith('http')) {
-          redirectUrl = 'https://www.institucional.frc.utn.edu.ar' + redirectUrl;
-        }
-        return fetchUrl(redirectUrl).then(resolve).catch(reject);
+    const postData = querystring.stringify({ id: paginaId });
+    const options = {
+      hostname: 'www.institucional.frc.utn.edu.ar',
+      port: 443,
+      path: '/Sistemas/Admin/Core/Rules/GetNoticiaPorPagina.asp',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(postData),
+        'User-Agent': 'Mozilla/5.0'
       }
+    };
+
+    const req = https.request(options, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
-      res.on('end', () => resolve(data));
-    }).on('error', reject);
+      res.on('end', () => {
+        try {
+          const raw = JSON.parse(data);
+          const formatted = raw.map(item => {
+            const obj = item.NoticiaObject || {};
+            const cleanDesc = (obj.descripcion || '')
+              .replace(/<[^>]+>/g, ' ')
+              .replace(/&nbsp;/g, ' ')
+              .replace(/&iacute;/g, 'í')
+              .replace(/&oacute;/g, 'ó')
+              .replace(/&aacute;/g, 'á')
+              .replace(/&eacute;/g, 'é')
+              .replace(/&uacute;/g, 'ú')
+              .replace(/&ntilde;/g, 'ñ')
+              .replace(/\s+/g, ' ')
+              .trim();
+
+            return {
+              id: item.codNoticia,
+              titulo: obj.titulo || 'Sin título',
+              fecha: item.fechaPublicacion || obj.fechaCreacion || 'Reciente',
+              resumen: cleanDesc.substring(0, 300) + (cleanDesc.length > 300 ? '...' : ''),
+              link: `https://www.institucional.frc.utn.edu.ar/sistemas/Areas/noticias/Detalle.asp?${item.codNoticia}`
+            };
+          });
+          resolve(formatted);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    });
+
+    req.on('error', reject);
+    req.write(postData);
+    req.end();
   });
-}
-
-function parseNews(html) {
-  const news = [];
-  const regex = /<a[^>]+href=["']([^"']*Detalle\.asp\?[^"']+)["'][^>]*>(.*?)<\/a>/gi;
-  let match;
-  const seen = new Set();
-
-  while ((match = regex.exec(html)) !== null) {
-    let link = match[1];
-    if (!link.startsWith('http')) {
-      link = 'https://www.institucional.frc.utn.edu.ar' + (link.startsWith('/') ? '' : '/sistemas/') + link;
-    }
-    const title = match[2].replace(/<[^>]+>/g, '').trim();
-    if (title && !seen.has(link)) {
-      seen.add(link);
-      news.push({ title, url: link });
-    }
-  }
-  return news;
 }
 
 const TOOLS = [
   {
     name: 'get_utn_sistemas_novedades',
-    description: 'Obtiene las últimas novedades e institucionales del Departamento de Ingeniería en Sistemas de Información (UTN FRC).',
+    description: 'Obtiene las últimas novedades oficiales del Departamento de Sistemas de Información (UTN FRC) en tiempo real.',
     inputSchema: {
       type: 'object',
       properties: {
-        categoria: {
-          type: 'string',
-          description: 'Categoría opcional: institucional, academica, alumnos, investigacion'
+        categoriaId: {
+          type: 'number',
+          description: 'ID de página: 1 (Institucional/General), 2 (Académica), 3 (Alumnos), 4 (Investigación)'
         }
       }
     }
   },
   {
     name: 'buscar_novedades_utn',
-    description: 'Busca novedades y anuncios en la web del Departamento de Sistemas de Información (UTN FRC) por palabra clave.',
+    description: 'Busca entre todas las publicaciones oficiales de la UTN FRC por palabra clave.',
     inputSchema: {
       type: 'object',
       properties: {
         query: {
           type: 'string',
-          description: 'Término de búsqueda (ej. examen, horarios, electiva, proyecto final)'
+          description: 'Término de búsqueda (ej: intensivo, examen, electiva, horarios)'
         }
       },
       required: ['query']
-    }
-  },
-  {
-    name: 'obtener_detalle_noticia_utn',
-    description: 'Obtiene el texto completo de una noticia o aviso del Departamento de Sistemas por su URL.',
-    inputSchema: {
-      type: 'object',
-      properties: {
-        url: {
-          type: 'string',
-          description: 'URL de la noticia en la UTN FRC'
-        }
-      },
-      required: ['url']
     }
   }
 ];
@@ -102,11 +108,11 @@ rl.on('line', async (line) => {
         result: {
           protocolVersion: '2024-11-05',
           capabilities: { tools: {} },
-          serverInfo: { name: 'utn-sistemas-mcp', version: '1.0.0' }
+          serverInfo: { name: 'utn-sistemas-mcp', version: '1.1.0' }
         }
       });
     } else if (method === 'notifications/initialized') {
-      // Notification
+      // Handshake initialized
     } else if (method === 'tools/list') {
       sendJson({
         jsonrpc: '2.0',
@@ -118,37 +124,21 @@ rl.on('line', async (line) => {
       let content = [];
 
       if (name === 'get_utn_sistemas_novedades') {
-        const cat = (args && args.categoria) ? args.categoria.toLowerCase() : 'institucional';
-        let targetUrl = 'https://www.institucional.frc.utn.edu.ar/Sistemas/';
-        if (cat === 'academica') targetUrl = 'https://www.institucional.frc.utn.edu.ar/sistemas/Areas/Academica/Novedades.asp';
-        if (cat === 'alumnos') targetUrl = 'https://www.institucional.frc.utn.edu.ar/sistemas/Areas/Alumnos/Novedades.asp';
-        if (cat === 'investigacion') targetUrl = 'https://www.institucional.frc.utn.edu.ar/sistemas/Areas/Investigacion/Novedades.asp';
-
-        const html = await fetchUrl(targetUrl);
-        const news = parseNews(html);
+        const catId = (args && args.categoriaId) ? args.categoriaId : 1;
+        const noticias = await fetchNoticiasFromApi(catId);
         content = [{
           type: 'text',
-          text: JSON.stringify({ total: news.length, categoria: cat, novedades: news }, null, 2)
+          text: JSON.stringify({ total: noticias.length, novedades: noticias }, null, 2)
         }];
       } else if (name === 'buscar_novedades_utn') {
         const query = args.query.toLowerCase();
-        const html = await fetchUrl('https://www.institucional.frc.utn.edu.ar/Sistemas/');
-        const news = parseNews(html);
-        const filtered = news.filter(n => n.title.toLowerCase().includes(query));
+        const noticias = await fetchNoticiasFromApi(1);
+        const filtradas = noticias.filter(n => 
+          n.titulo.toLowerCase().includes(query) || n.resumen.toLowerCase().includes(query)
+        );
         content = [{
           type: 'text',
-          text: JSON.stringify({ query, resultados: filtered.length, novedades: filtered }, null, 2)
-        }];
-      } else if (name === 'obtener_detalle_noticia_utn') {
-        const html = await fetchUrl(args.url);
-        const cleanText = html.replace(/<script\b[^<]*>([\s\S]*?)<\/script>/gi, '')
-                              .replace(/<style\b[^<]*>([\s\S]*?)<\/style>/gi, '')
-                              .replace(/<[^>]+>/g, ' ')
-                              .replace(/\s+/g, ' ')
-                              .trim();
-        content = [{
-          type: 'text',
-          text: cleanText.substring(0, 4000)
+          text: JSON.stringify({ query, totalResultados: filtradas.length, resultados: filtradas }, null, 2)
         }];
       } else {
         throw new Error(`Tool unknown: ${name}`);
@@ -167,7 +157,7 @@ rl.on('line', async (line) => {
       });
     }
   } catch (err) {
-    console.error('MCP Error:', err);
+    console.error('MCP Server Error:', err);
   }
 });
 
