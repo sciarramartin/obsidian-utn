@@ -127,3 +127,24 @@ app.get('/api/movil/inicio/:usuarioId', async (req, res) => {
 
 app.listen(3000, () => console.log('BFF Móvil corriendo en puerto 3000'));
 ```
+
+---
+
+## ⚡ ¿Por qué la primera forma es secuencial/lenta y el BFF en paralelo?
+
+### 1. El problema en la App móvil (Secuencial / Múltiples viajes de red):
+Cuando usas `await` línea por línea en el celular:
+- La línea 1 abre una conexión por antena 4G/5G, viaja al servidor, espera la respuesta y vuelve (**~100 ms**).
+- Recién cuando termina, la línea 2 hace lo mismo (**~100 ms**).
+- Luego la línea 3 (**~100 ms**).
+- **Tiempo total:** `100ms + 100ms + 100ms = 300ms` (La App se siente congelada o lenta).
+
+### 2. La ventaja del BFF (`Promise.all` en el Servidor):
+En JavaScript, `Promise.all([ fetch1, fetch2, fetch3 ])` **dispara las 3 consultas al mismo tiempo en el mismo milisegundo**.
+- Como el servidor BFF está alojado en la **misma red interna o Data Center** (AWS, Google Cloud) que los microservicios, la velocidad entre ellos es de **1 ms** por fibra óptica local.
+- Las 3 consultas arrancan juntas en paralelo.
+- **Tiempo total:** Lo que tarde la consulta más lenta (ej. **10 ms**).
+
+### ⏱️ Comparación de Tiempos:
+- **Celular directo (Secuencial):** `[--- 100ms ---] -> [--- 100ms ---] -> [--- 100ms ---]` = **300 ms**
+- **Servidor BFF (Paralelo):** `[--- 10ms ---]` (las 3 se ejecutan al mismo tiempo) = **10 ms**
