@@ -1,7 +1,7 @@
 # Servidor MCP: Departamento de Ingeniería en Sistemas (UTN FRC)
 
 **Fecha:** 2026-08-10  
-**Ubicación del Servidor:** `D:\obsidian-utn\mcp_utn_sistemas\index.js`  
+**Ubicación del Servidor:** `C:\Users\arrai\OneDrive\Documentos\obsidian-utn\mcp_utn_sistemas\index.js`  
 **Web de origen:** https://www.institucional.frc.utn.edu.ar/Sistemas/  
 
 ---
@@ -29,7 +29,7 @@ El servidor está registrado en `.agents/mcp_config.json`:
   "mcpServers": {
     "utn-sistemas": {
       "command": "node",
-      "args": ["D:\\obsidian-utn\\mcp_utn_sistemas\\index.js"]
+      "args": ["C:\\Users\\arrai\\OneDrive\\Documentos\\obsidian-utn\\mcp_utn_sistemas\\index.js"]
     }
   }
 }
