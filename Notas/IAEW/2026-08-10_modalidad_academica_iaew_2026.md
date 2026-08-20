@@ -1,3 +1,6 @@
+﻿**Materia Hub:** [[2026-08-10_integracion_aplicaciones_web_utn_frc|Integración de Aplicaciones Web (IAEW)]]
+**Tags:** #materia/iaew
+
 # Modalidad Académica: Integración de Aplicaciones en Entorno Web (IAEW)
 
 **Universidad:** UTN FRC (Facultad Regional Córdoba)  

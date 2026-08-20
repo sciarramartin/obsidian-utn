@@ -1,6 +1,8 @@
-# Protocolo de Comunicación: WebSockets
+﻿# Protocolo de Comunicación: WebSockets
 
 **Materia:** Integración de Aplicaciones en Entorno Web (UTN FRC)  
+**Materia Hub:** [[2026-08-10_integracion_aplicaciones_web_utn_frc|Integración de Aplicaciones Web (IAEW)]]
+**Tags:** #materia/iaew
 **Fecha:** 2026-08-10  
 **Categoría:** Protocolos de Comunicación y Tiempo Real  
 

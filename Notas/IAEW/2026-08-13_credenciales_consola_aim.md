@@ -1,6 +1,8 @@
-# Credenciales: Consola de Administración AIM (Keycloak)
+﻿# Credenciales: Consola de Administración AIM (Keycloak)
 
 **Materia:** Diseño de Sistemas / Integración de Aplicaciones en Entorno Web  
+**Materia Hub:** [[2026-08-10_integracion_aplicaciones_web_utn_frc|Integración de Aplicaciones Web (IAEW)]]
+**Tags:** #materia/iaew
 **Fecha:** 2026-08-13  
 **Categoría:** Credenciales y Enlaces  
 

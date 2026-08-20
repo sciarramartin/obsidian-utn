@@ -1,3 +1,6 @@
+﻿**Materia Hub:** [[2026-08-10_integracion_aplicaciones_web_utn_frc|Integración de Aplicaciones Web (IAEW)]]
+**Tags:** #materia/iaew
+
 # Servidor MCP: Departamento de Ingeniería en Sistemas (UTN FRC)
 
 **Fecha:** 2026-08-10  

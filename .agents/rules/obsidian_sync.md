@@ -2,8 +2,8 @@
 
 Target Directory: `C:\Users\arrai\OneDrive\Documentos\obsidian-utn\`
 
-1. **Subject-Only Scope:**
-   Only record notes for topics, concepts, architectures, and questions related to **Integración de Aplicaciones en Entorno Web (IAEW)**. Skip all assistant meta-questions, token setup, or system diagnostics.
+1. **Subject Scope:**
+   Only record notes for topics, concepts, models, architectures, frameworks, and questions related to **Integración de Aplicaciones en Entorno Web (IAEW)**, **Emprendimientos Tecnológicos**, and related UTN FRC Information Systems Engineering subjects. Skip all assistant meta-questions, terminal tests, or generic system diagnostics.
 
 2. **Append-Only (Avoid Duplicates):**
    If a note for a topic or concept already exists, do NOT create a new file. Locate the existing note and append any new questions, answers, or clarifications at the bottom of it, separated by `---` dividers without deleting previous technical content.

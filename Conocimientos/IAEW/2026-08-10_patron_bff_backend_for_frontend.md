@@ -1,6 +1,8 @@
-# Patrón de Arquitectura: Backend For Frontend (BFF)
+﻿# Patrón de Arquitectura: Backend For Frontend (BFF)
 
 **Materia:** Integración de Aplicaciones en Entorno Web (UTN FRC)  
+**Materia Hub:** [[2026-08-10_integracion_aplicaciones_web_utn_frc|Integración de Aplicaciones Web (IAEW)]]
+**Tags:** #materia/iaew
 **Fecha:** 2026-08-10  
 **Categoría:** Patrones de Integración y Arquitectura Web  
 

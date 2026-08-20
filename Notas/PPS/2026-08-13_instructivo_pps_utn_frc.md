@@ -1,6 +1,7 @@
 # Instructivo Académico: Práctica Profesional Supervisada (PPS)
 
 **Materia:** Práctica Profesional Supervisada (UTN FRC)  
+**Tags:** #materia/pps #utn #sistemas #tramites  
 **Fecha:** 2026-08-13  
 **Categoría:** Trámites y Guías Académicas  
 
