@@ -1,4 +1,4 @@
-﻿# Conceptos Fundamentales: APIs y Servicios Web
+# Conceptos Fundamentales: APIs y Servicios Web
 
 **Materia:** Integración de Aplicaciones en Entorno Web (UTN FRC)  
 **Materia Hub:** [[2026-08-10_integracion_aplicaciones_web_utn_frc|Integración de Aplicaciones Web (IAEW)]]
@@ -51,3 +51,25 @@ Un servicio web expone funciones en un servidor para que clientes externos (apli
    - Creado por Meta. Permite al cliente solicitar en una sola consulta únicamente los campos exactos que necesita.
 4. **gRPC:**
    - Creado por Google. Utiliza HTTP/2 y Protocol Buffers para comunicación entre microservicios a ultra alta velocidad.
+
+---
+
+## 🛡️ 5. APIs como Guardianas de Reglas de Negocio (CRUD vs. Operaciones de Dominio)
+
+> [!NOTE]
+> **Principio de Diseño:** *"Una API no solo guarda y recupera datos; también protege las invariantes y reglas de negocio del dominio."*
+
+### Comparativa: CRUD vs. Operación de Negocio
+| Tipo de Endpoint | Ejemplo | Propósito y Comportamiento |
+| :--- | :--- | :--- |
+| **CRUD Estándar** | `GET /productos`<br>`POST /productos` | Lectura o alta directa de recursos en el catálogo. |
+| **Operación de Negocio** | `POST /pedidos/:id/confirmar` | Ejecuta **transiciones de estado**, valida stock disponible, calcula totales y previene operaciones duplicadas. |
+
+### Semántica de Códigos de Estado HTTP en APIs REST
+- **`200 OK`:** Petición procesada exitosamente.
+- **`201 Created`:** Recurso nuevo creado satisfactoriamente en el servidor.
+- **`400 Bad Request`:** Petición malformada o faltan campos obligatorios en el payload.
+- **`404 Not Found`:** El identificador del recurso no existe en el sistema.
+- **`409 Conflict`:** La petición es sintácticamente válida pero **entra en conflicto con el estado actual del recurso en el negocio** (ej: reintentar confirmar un pedido que ya fue confirmado o intentar comprar sin stock).
+- **`500 Internal Server Error`:** Falla interna o bug no controlado en el servidor. **Nunca se debe responder 500 ante un error de validación de negocio del cliente.**
+

@@ -1,0 +1,24 @@
+# Node dependencies
+**/node_modules/
+node_modules/
+
+# Environment and private variables
+**/.env
+.env
+**/.env.local
+
+# Databases and runtime data
+**/.mongodb_data/
+.mongodb_data/
+
+# Archives and build artifacts
+*.zip
+*.tar.gz
+
+# System and OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Workspace and temporary caches
+**/.cache/

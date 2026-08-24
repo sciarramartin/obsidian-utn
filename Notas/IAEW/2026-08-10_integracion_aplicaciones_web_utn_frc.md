@@ -18,6 +18,7 @@ La materia **Integración de Aplicaciones en Entorno Web** se enfoca en el dise�
 - [[2026-08-13_credenciales_consola_aim|Credenciales y Acceso Consola AIM]]
 - [[2026-08-20_guia_trabajo_jwt_keycloak|Práctico: Continuamos trabajando con JWT y Keycloak]]
 - [[2026-08-20_instructivo_laboratorio_jwt_keycloak|Instructivo Paso a Paso: Laboratorio JWT y Keycloak]]
+- [[2026-08-24_actividad_clase_02_ecommerce_api_rest_mongodb|Actividad Práctica Clase 02: E-commerce Integrado (API REST + MongoDB)]]
 
 ---
 
@@ -31,6 +32,7 @@ La materia **Integración de Aplicaciones en Entorno Web** se enfoca en el dise�
 - **Cloud & DevOps:**
   - [[2026-08-10_cloud_computing|Cloud Computing]]
   - [[2026-08-13_que_es_una_pipeline|¿Qué es una Pipeline de CI/CD?]]
+  - [[2026-08-24_docker_mongodb_contenedores_y_persistencia|Docker, MongoDB y Persistencia en Integración Web]]
 - **Seguridad e Identidad:**
   - [[2026-08-13_analogia_oidc_oauth2|Analogía OIDC y OAuth2]]
   - [[2026-08-13_obtencion_y_tipos_de_tokens|Obtención y Tipos de Tokens]]
@@ -40,4 +42,10 @@ La materia **Integración de Aplicaciones en Entorno Web** se enfoca en el dise�
   - [[2026-08-13_gestion_apis_ataques_ddos|Gestión de APIs y Mitigación de Ataques DDoS]]
 
 ---
+
+## ❓ Preguntas de Examen y Autoevaluación
+- [[2026-08-24_preguntas_examen_clase_02_api_mongodb|Preguntas Clave Clase 02: APIs REST, Reglas de Negocio y MongoDB]]
+
+---
 *Hub central de la materia IAEW en el Baúl Obsidian UTN.*
+
