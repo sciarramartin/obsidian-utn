@@ -37,6 +37,9 @@ La materia **Integración de Aplicaciones en Entorno Web** se enfoca en el dise�
   - [[2026-08-13_analogia_oidc_oauth2|Analogía OIDC y OAuth2]]
   - [[2026-08-13_obtencion_y_tipos_de_tokens|Obtención y Tipos de Tokens]]
   - [[2026-08-13_seguridad_y_validacion_oidc_oauth2|Seguridad y Validación OIDC / OAuth2]]
+  - [[2026-08-27_oidc_flujo_pkce_authorization_code|OpenID Connect (OIDC): Flujo Authorization Code con PKCE]]
+  - [[2026-08-27_saml_autenticacion_federada_sso|Protocolo SAML 2.0 y Single Sign-On (SSO)]]
+  - [[2026-08-27_ldap_protocolo_directorio_e_integracion_oidc|Protocolo LDAP y su Integración con OIDC]]
   - [[2026-08-13_keycloak_aim|Keycloak y AIM]]
   - [[2026-08-20_conclusion_y_glosario_maestro_jwt_keycloak|Conclusión y Glosario Maestro: Keycloak, JWT y Validación Local]]
   - [[2026-08-13_gestion_apis_ataques_ddos|Gestión de APIs y Mitigación de Ataques DDoS]]
@@ -45,6 +48,7 @@ La materia **Integración de Aplicaciones en Entorno Web** se enfoca en el dise�
 
 ## ❓ Preguntas de Examen y Autoevaluación
 - [[2026-08-24_preguntas_examen_clase_02_api_mongodb|Preguntas Clave Clase 02: APIs REST, Reglas de Negocio y MongoDB]]
+- [[2026-08-27_preguntas_examen_oidc_saml_ldap|Preguntas Clave: OIDC (PKCE), SAML 2.0 y LDAP]]
 
 ---
 *Hub central de la materia IAEW en el Baúl Obsidian UTN.*

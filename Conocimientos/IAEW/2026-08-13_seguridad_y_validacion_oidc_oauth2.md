@@ -1,4 +1,4 @@
-﻿# Conceptos de Seguridad: Validación en OIDC y OAuth 2.0
+# Conceptos de Seguridad: Validación en OIDC y OAuth 2.0
 
 **Materia:** Integración de Aplicaciones en Entorno Web (UTN FRC)  
 **Materia Hub:** [[2026-08-10_integracion_aplicaciones_web_utn_frc|Integración de Aplicaciones Web (IAEW)]]
@@ -134,4 +134,18 @@ La diferencia fundamental reside en **dónde se verifica el estado de revocació
 * La **Validación Remota (/introspect)** le pregunta activamente al servidor de identidad (IdP) si el token sigue activo en ese preciso instante (lento por la red, pero con revocación en tiempo real).
 
 ---
+
+## 💾 5. ¿Dónde y Cómo se Almacenan las Credenciales en la Arquitectura?
+
+1. **En el Identity Provider (Keycloak / AIM):**
+   - **Base de datos propia (PostgreSQL/MySQL):** Las contraseñas de usuarios nunca se guardan en texto plano; se almacenan como hashes criptográficos con salt utilizando algoritmos resistentes a ataques de fuerza bruta (**PBKDF2 con SHA-512** o **Argon2**).
+   - **Delegación a LDAP/Active Directory:** Si Keycloak está federado con LDAP, no almacena contraseñas localmente; delega la verificación en tiempo real hacia el servidor LDAP mediante conexiones LDAPS (puerto `636/TCP`).
+2. **En las Aplicaciones y APIs Backend (Clientes Confidenciales):**
+   - El **`client_secret`** y las claves privadas se resguardan en **variables de entorno (`.env`)** o gestores de secretos (AWS Secrets Manager, HashiCorp Vault). Nunca en código fuente ni repositorios Git.
+3. **En los Clientes Web y Móviles (Frontend):**
+   - Los **Access Tokens** e **ID Tokens** deben resguardarse en memoria volátil o en **Cookies `HttpOnly`, `Secure` y `SameSite`** para protegerlos contra ataques de Cross-Site Scripting (XSS).
+   - En clientes móviles se almacenan en el llavero seguro del sistema operativo (*iOS Keychain* / *Android Keystore*).
+
+---
 *Nota registrada automáticamente en el Baúl de Obsidian UTN.*
+
