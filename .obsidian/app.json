@@ -7,6 +7,8 @@
     "**/node_modules/**",
     "**/.git/**",
     "**/.mongodb_data/**",
-    "**/*.zip"
+    "**/*.zip",
+    ".agents/**",
+    "AGENTS.md"
   ]
 }

@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "85e6ea08eee9378b",
+        "id": "a9cf4dc3cd20f32c",
         "type": "tabs",
         "children": [
           {
-            "id": "7fadb1cc95de19e2",
+            "id": "6e5d9951f370c756",
             "type": "leaf",
             "state": {
               "type": "graph",
@@ -181,8 +181,9 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "7fadb1cc95de19e2",
+  "active": "6e5d9951f370c756",
   "lastOpenFiles": [
+    "iaew-2026-ecommerce-api/node_modules/ms/license.md",
     "2026-08-01_indice_general_utn_frc.md",
     "iaew-2026-ecommerce-api/node_modules/mongodb-memory-server/README.md",
     "iaew-2026-ecommerce-api/node_modules/content-type/README.md",
