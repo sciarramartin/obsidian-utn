@@ -37,12 +37,67 @@ graph LR
     C -.->|Falla| E3[403 Forbidden]
 ```
 
-### Anatomía de los Middlewares:
-* **`requireApiKey`:** Protege integraciones internas y comunicación servicio a servicio (*Service-to-Service*) validando el header `x-api-key`.
-* **`requireAuth`:** Valida el header `Authorization: Bearer <token>`, extrae la identidad del usuario y la inyecta en el objeto de la solicitud (`req.user`) para los siguientes middlewares.
-* **`requireRole(rolPermitido)`:** Función de orden superior (*Higher-Order Function*) que evalúa si `req.user.rol === rolPermitido`.
+### Anatomía y Funcionamiento Línea por Línea:
+
+#### A. `requireApiKey` (Validación de Integración Interna)
+Verifica que el servicio llamador conozca la clave secreta compartida en las variables de entorno (`INTERNAL_API_KEY`):
+```javascript
+function requireApiKey(req, res, next) {
+  const apiKey = req.header('x-api-key');
+  const expectedApiKey = process.env.INTERNAL_API_KEY;
+
+  if (!expectedApiKey) {
+    return res.status(500).json({ error: 'API key interna no configurada' });
+  }
+  if (!apiKey || apiKey !== expectedApiKey) {
+    return res.status(401).json({ error: 'API key inválida o ausente' });
+  }
+
+  next(); // Da paso al siguiente middleware
+}
+```
+
+#### B. `requireAuth` (Identificación e Inyección de `req.user`)
+Valida el token Bearer y enriquece el objeto de la petición con la identidad del usuario para el resto de la tubería:
+```javascript
+function requireAuth(req, res, next) {
+  const authorization = req.header('authorization');
+  if (!authorization || !authorization.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Token ausente' });
+  }
+
+  const token = authorization.replace('Bearer ', '').trim();
+  const usuario = usuariosDemo[token];
+  if (!usuario) {
+    return res.status(401).json({ error: 'Token inválido' });
+  }
+
+  // 🌟 Inyección de Contexto: Permite que los middlewares posteriores conozcan al usuario
+  req.user = usuario;
+  next();
+}
+```
+
+#### C. `requireRole(rolPermitido)` (Función de Orden Superior para RBAC)
+Devuelve una función middleware parametrizada con el rol exigido en cada endpoint:
+```javascript
+function requireRole(rolPermitido) {
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({ error: 'Usuario no autenticado' });
+    }
+    if (req.user.rol !== rolPermitido) {
+      // 403 Forbidden: Autenticado pero sin privilegios suficientes
+      return res.status(403).json({ error: 'Permisos insuficientes' });
+    }
+
+    next();
+  };
+}
+```
 
 ---
+
 
 ## 🚦 3. Matriz de Códigos de Estado HTTP en Seguridad
 
