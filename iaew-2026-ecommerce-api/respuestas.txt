@@ -1,35 +1,21 @@
-Respuestas Clase 02 - E-commerce integrado (API REST + MongoDB)
-Estudiante: Martín Sciarra
-Materia: Integración de Aplicaciones en Entorno Web (IAEW - UTN FRC)
-Fecha: 2026-08-24
+Respuestas y Reflexion - Clase 03
+Materia: Integracion de Aplicaciones en Entorno Web (IAEW - UTN FRC)
+Estudiante: Martin Sciarra
 
-================================================================================
-1. ¿Qué endpoint fue CRUD?
-================================================================================
-Respuesta:
-- GET /productos y POST /productos
-Justificación:
-Son operaciones tradicionales de lectura de catálogo y creación de entidades de datos estándar, donde la API simplemente traslada la información entre el cliente HTTP y la colección de MongoDB sin alterar reglas de negocio complejas.
+1. Pregunta principal: Que endpoints de mi API podrian ser peligrosos si los ejecuta un agente de IA sin autorizacion suficiente?
 
-================================================================================
-2. ¿Qué endpoint fue una operación de negocio?
-================================================================================
-Respuesta:
-- POST /pedidos/:id/confirmar
-Justificación:
-No es una simple edición de un atributo; ejecuta una transición de máquina de estados en el dominio. Valida que el pedido esté en estado 'pendiente', verifica que exista stock físico suficiente en cada producto del catálogo, descuenta el stock de forma atómica y pasa el pedido a 'confirmado' registrando la fecha/hora de confirmación.
+Si dejamos que una IA interactue con la API sin controlar sus permisos, corremos riesgos importantes:
+- En lecturas: Si consulta pedidos (GET /pedidos) sin permiso, podria filtrar datos privados de clientes como nombres, mails y montos de compra.
+- En escrituras: Si crea productos (POST /productos) o confirma pedidos (POST /pedidos/:id/confirmar), podria cambiar precios, descontar stock fisico real o generar compras no deseadas.
+- Roles: Las acciones de catalogo deben exigir rol admin y API key interna, mientras que las compras deben quedar reservadas al rol cliente.
+- Auditoria: Para controlar lo que hace la IA, es indispensable guardar logs con la fecha y hora, el identificador del usuario o agente, la IP, el endpoint llamado y si la accion fue aceptada o rechazada.
 
-================================================================================
-3. ¿Qué regla de negocio protegimos?
-================================================================================
-Respuesta:
-- Invariante 1 (Estado de confirmación única): Que un pedido únicamente puede ser confirmado si se encuentra en estado 'pendiente'. Se evita la doble confirmación o doble cobro respondiendo 409 Conflict si ya fue confirmado.
-- Invariante 2 (Consistencia de Inventario): Que ninguna compra pueda confirmarse si alguno de los productos solicitados no cuenta con stock suficiente en el inventario.
-- Invariante 3 (Cálculo fidedigno de totales): Que el precio unitario y el total acumulado sean calculados en el servidor basándose en los datos reales del catálogo y no en lo que el cliente intente enviar por el payload.
+2. Por que usamos 401 Unauthorized y 403 Forbidden?
+- 401 Unauthorized significa que no sabemos quien es el usuario (falta el token, la API key o son invalidos).
+- 403 Forbidden significa que ya sabemos quien es el usuario, pero no tiene permiso para esa accion (por ejemplo, un cliente intentando crear un producto de admin).
 
-================================================================================
-4. ¿Por qué 409 Conflict es más claro que 500?
-================================================================================
-Respuesta:
-- 500 Internal Server Error comunica que el servidor sufrió una falla de infraestructura inesperada, un bug o una excepción no controlada en su código. Esto genera confusión al cliente o frontend, sugiriendo que debe reintentar o que el servicio se cayó.
-- 409 Conflict comunica con precisión semántica que la solicitud HTTP es técnicamente válida, pero entra en conflicto con el estado actual del recurso en el modelo de negocio (el pedido ya fue procesado o no hay inventario disponible). Informa claramente al cliente cuál fue la regla infringida sin enmascararlo como una falla del sistema.
+3. Por que usamos middlewares en Express?
+Para no repetir validaciones con if en cada ruta. El middleware frena la peticion antes de llegar al controlador si no cumple los requisitos, dejando el codigo mas limpio y ordenado.
+
+4. Por que la API Key va en el archivo .env y no en el codigo?
+Porque el codigo se sube a GitHub y la clave quedaria publica. El archivo .env se queda unicamente en la maquina local para proteger los secretos.

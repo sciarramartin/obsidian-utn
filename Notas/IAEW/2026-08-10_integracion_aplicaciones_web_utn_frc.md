@@ -19,6 +19,7 @@ La materia **Integración de Aplicaciones en Entorno Web** se enfoca en el dise�
 - [[2026-08-20_guia_trabajo_jwt_keycloak|Práctico: Continuamos trabajando con JWT y Keycloak]]
 - [[2026-08-20_instructivo_laboratorio_jwt_keycloak|Instructivo Paso a Paso: Laboratorio JWT y Keycloak]]
 - [[2026-08-24_actividad_clase_02_ecommerce_api_rest_mongodb|Actividad Práctica Clase 02: E-commerce Integrado (API REST + MongoDB)]]
+- [[2026-08-31_actividad_clase_03_seguridad_api_middlewares_roles|Actividad Práctica Clase 03: Seguridad en API REST con Middlewares, Roles y API Keys]]
 
 ---
 
@@ -40,6 +41,7 @@ La materia **Integración de Aplicaciones en Entorno Web** se enfoca en el dise�
   - [[2026-08-27_oidc_flujo_pkce_authorization_code|OpenID Connect (OIDC): Flujo Authorization Code con PKCE]]
   - [[2026-08-27_saml_autenticacion_federada_sso|Protocolo SAML 2.0 y Single Sign-On (SSO)]]
   - [[2026-08-27_ldap_protocolo_directorio_e_integracion_oidc|Protocolo LDAP y su Integración con OIDC]]
+  - [[2026-08-31_seguridad_apis_middlewares_rbac_ia|Seguridad en APIs REST: Middlewares, Control de Acceso por Roles (RBAC) y Gobierno de IA]]
   - [[2026-08-13_keycloak_aim|Keycloak y AIM]]
   - [[2026-08-20_conclusion_y_glosario_maestro_jwt_keycloak|Conclusión y Glosario Maestro: Keycloak, JWT y Validación Local]]
   - [[2026-08-13_gestion_apis_ataques_ddos|Gestión de APIs y Mitigación de Ataques DDoS]]
@@ -49,7 +51,9 @@ La materia **Integración de Aplicaciones en Entorno Web** se enfoca en el dise�
 ## ❓ Preguntas de Examen y Autoevaluación
 - [[2026-08-24_preguntas_examen_clase_02_api_mongodb|Preguntas Clave Clase 02: APIs REST, Reglas de Negocio y MongoDB]]
 - [[2026-08-27_preguntas_examen_oidc_saml_ldap|Preguntas Clave: OIDC (PKCE), SAML 2.0 y LDAP]]
+- [[2026-08-31_preguntas_examen_clase_03_seguridad_rbac|Preguntas Clave Clase 03: Seguridad en APIs, Middlewares y Roles]]
 
 ---
 *Hub central de la materia IAEW en el Baúl Obsidian UTN.*
+
 

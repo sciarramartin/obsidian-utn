@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const { connectDb } = require('./db');
+const { requireAuth } = require('./middleware/auth');
 const productosRouter = require('./routes/productos');
 const pedidosRouter = require('./routes/pedidos');
 
@@ -9,8 +10,14 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
+// Endpoint de Health Check (Público)
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
+});
+
+// Endpoint de Identidad / Depuración (Protegido: Bearer Token)
+app.get('/me', requireAuth, (req, res) => {
+  res.json({ user: req.user });
 });
 
 app.use('/productos', productosRouter);

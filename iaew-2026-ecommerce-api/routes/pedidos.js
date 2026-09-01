@@ -2,10 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Pedido = require('../models/Pedido');
 const Producto = require('../models/Producto');
+const { requireAuth, requireRole } = require('../middleware/auth');
 const router = express.Router();
 
-// POST /pedidos - Crear pedido en MongoDB
-router.post('/', async (req, res) => {
+// POST /pedidos - Crear pedido en MongoDB (Protegido: Token + Rol Cliente)
+router.post('/', requireAuth, requireRole('cliente'), async (req, res) => {
   try {
     if (!req.body || !Array.isArray(req.body.items) || req.body.items.length === 0) {
       return res.status(400).json({ error: 'El pedido debe tener al menos un item' });
@@ -52,8 +53,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-// POST /pedidos/:id/confirmar - Confirmar pedido en MongoDB con validación de stock
-router.post('/:id/confirmar', async (req, res) => {
+// POST /pedidos/:id/confirmar - Confirmar pedido en MongoDB (Protegido: Token + Rol Cliente)
+router.post('/:id/confirmar', requireAuth, requireRole('cliente'), async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
       return res.status(400).json({ error: 'ID de pedido inválido' });

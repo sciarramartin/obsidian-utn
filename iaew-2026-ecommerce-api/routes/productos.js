@@ -1,8 +1,9 @@
 const express = require('express');
 const Producto = require('../models/Producto');
+const { requireApiKey, requireAuth, requireRole } = require('../middleware/auth');
 const router = express.Router();
 
-// GET /productos - Consultar catálogo desde MongoDB
+// GET /productos - Consultar catálogo desde MongoDB (Público)
 router.get('/', async (req, res) => {
   try {
     const productos = await Producto.find().sort({ createdAt: -1 });
@@ -12,11 +13,11 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST /productos - Crear producto persistente en MongoDB
-router.post('/', async (req, res) => {
+// POST /productos - Crear producto (Protegido: API Key + Bearer Token + Rol Admin)
+router.post('/', requireApiKey, requireAuth, requireRole('admin'), async (req, res) => {
   try {
     if (!req.body || !req.body.nombre || !req.body.categoria) {
-      return res.status(400).json({ error: 'Faltan datos obligatorios (nombre, categoria)' });
+      return res.status(400).json({ error: 'Faltan datos obligatorios' });
     }
 
     const producto = await Producto.create({
