@@ -3,7 +3,8 @@
 **Universidad:** UTN FRC (Universidad Tecnológica Nacional - Facultad Regional Córdoba)  
 **Carrera:** Ingeniería en Sistemas de Información  
 **Tipo de Materia:** Electiva  
-**Tags:** #materia/emprendimientos-tecnologicos #utn #sistemas #startup #innovacion  
+**Tags:** #materia/emprendimientos-tecnologicos #utn #sistemas #startup #innovacion #hub  
+**MOC Principal:** [[2026-08-01_indice_general_utn_frc|Índice General UTN]]  
 **Fecha de registro:** 2026-08-14  
 
 ---

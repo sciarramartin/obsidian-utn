@@ -1,5 +1,12 @@
 {
   "legacyEditor": false,
   "livePreview": true,
-  "alwaysUpdateLinks": true
+  "alwaysUpdateLinks": true,
+  "userIgnoreFilters": [
+    "iaew-2026-ecommerce-api/**",
+    "**/node_modules/**",
+    "**/.git/**",
+    "**/.mongodb_data/**",
+    "**/*.zip"
+  ]
 }

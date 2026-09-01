@@ -2,7 +2,8 @@
 
 **Universidad:** UTN FRC (Universidad Tecnológica Nacional - Facultad Regional Córdoba)  
 **Tipo de Materia:** Electiva  
-**Tags:** #materia/iaew #utn #sistemas  
+**Tags:** #materia/iaew #utn #sistemas #hub  
+**MOC Principal:** [[2026-08-01_indice_general_utn_frc|Índice General UTN]]  
 **Fecha de registro:** 2026-08-10  
 
 ---
