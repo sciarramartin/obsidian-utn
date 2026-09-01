@@ -36,6 +36,7 @@ La materia electiva **Emprendimientos Tecnológicos** tiene como propósito form
 - [[2026-08-28_sprint_1_actividades_metodologia_exo|Sprint 1: Actividades y Metodología ExO / Lean Startup]]
 - [[2026-08-28_idea_proyecto_plataforma_farmacias_receta_electronica|Idea Proyecto: Plataforma Digital de Recetas Electrónicas y Farmacias]]
 - [[2026-08-30_idea_preliminar_plataforma_farmacias_recetas|Idea Preliminar: Alcance, Flujo y Tablero Farmacias / Pacientes]]
+- [[2026-08-31_bmc_postits_plataforma_farmacias|Business Model Canvas: Post-its para el Tablero (FarmaLink)]]
 
 ---
 *Nota registrada en el Baúl de Obsidian UTN.*
