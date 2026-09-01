@@ -4,11 +4,9 @@
   "alwaysUpdateLinks": true,
   "userIgnoreFilters": [
     "iaew-2026-ecommerce-api/**",
-    "**/node_modules/**",
+    "node_modules/**",
     "**/.git/**",
-    "**/.mongodb_data/**",
-    "**/*.zip",
-    ".agents/**",
-    "AGENTS.md"
+    "**/.agents/**",
+    "**/*.zip"
   ]
 }

@@ -1,25 +1,38 @@
-# Workspace Rules: Obsidian UTN Vault
+# Workspace Rules: Mi Segundo Cerebro (UTN & Materias)
 
 - **Vault Location:** `C:\Users\arrai\OneDrive\Documentos\obsidian-utn\`
+- **Vault Name:** `Mi Segundo Cerebro`
 
-## 📚 Materias Cubiertas:
-1. **Integración de Aplicaciones en Entorno Web (IAEW)** (Electiva / Ing. en Sistemas)
-2. **Emprendimientos Tecnológicos** (Electiva / Ing. en Sistemas)
-3. Temas afines de Ingeniería en Sistemas de Información (UTN FRC).
+---
 
-## 🗂️ Estructura del Baúl y Separación por Materias:
-- `Conocimientos/IAEW/` & `Notas/IAEW/`: Notas de IAEW. Incluir siempre `**Materia Hub:** [[2026-08-10_integracion_aplicaciones_web_utn_frc|IAEW]]` y tag `#materia/iaew`.
-- `Conocimientos/Emprendimientos_Tecnologicos/` & `Notas/Emprendimientos_Tecnologicos/`: Notas de Emprendimientos. Incluir siempre `**Materia Hub:** [[2026-08-14_emprendimientos_tecnologicos_utn_frc|Emprendimientos Tecnológicos]]` y tag `#materia/emprendimientos-tecnologicos`.
-- `Notas/PPS/`: Trámites e instructivos de PPS. Tag: `#materia/pps`.
-- `Preguntas/`: Subcarpetas por materia (`IAEW/`, `Emprendimientos_Tecnologicos/`).
-- Nomenclatura de archivos: `YYYY-MM-DD_nombre_tema.md`.
+## 🌳 Arquitectura del Árbol Jerárquico:
 
-## ✍️ Reglas de Creación y Edición de Notas:
-- **EXCLUSIVAMENTE CONTENIDO DE LA CURSADA:** Guardar únicamente conceptos, apuntes, ideas de negocio, metodologías y ejercicios pertinentes a las materias de UTN.
-- **NO GUARDAR CONTENIDO AJENO:** No registrar pruebas técnicas de terminal, configuración de herramientas del asistente o charlas no académicas.
-- **SOLO AGREGAR (APPEND-ONLY / EVITAR DUPLICADOS):** Si ya existe una nota creada sobre un tema o concepto, **NO crear un archivo nuevo**. Buscar la nota existente y agregar al final las nuevas notas o aclaraciones, separadas por divisores (`---`). Nunca sobrescribir ni borrar contenido previo.
-- **FORMATO OBSIDIAN:** Usar Markdown enriquecido (encabezados claros `#`, tablas comparativas, callouts `>`, negritas estratégicas, listas organizadas y enlaces tipo `[[WikiLink]]` cuando conecte conceptos).
+### 1. Tronco / Nodo Raíz:
+* `00_Indice_Maestro.md`: Raíz central del Segundo Cerebro Universitario.
+
+### 2. Ramas y Hubs Específicos:
+* **🟣 Rama IAEW:** `Hub_IAEW.md` (Tag `#materia/iaew`, enlace `**Rama:** [[Hub_IAEW|IAEW]]`).
+* **🟢 Rama Emprendimientos Tecnológicos:** `Hub_Emprendimientos_Tecnologicos.md` (Tag `#materia/emprendimientos-tecnologicos`, incluye FarmaLink, enlace `**Rama:** [[Hub_Emprendimientos_Tecnologicos|Emprendimientos Tecnológicos]]`).
+* **🟠 Rama Contenido General UTN:** `Hub_UTN_General.md` (Tag `#materia/pps` o `#utn/general`, incluye PPS 200hs y Servidores MCP, enlace `**Rama:** [[Hub_UTN_General|Contenido General UTN]]`).
+
+---
+
+## 🤖 Reglas de Creación, Anti-Duplicados y Mantenimiento de Grafo:
+
+### 🛡️ 1. Regla Anti-Duplicados y Actualización Append-Only:
+- **BÚSQUEDA PREVIA OBLIGATORIA:** Antes de crear una nota, verificar siempre si ya existe un documento relacionado con ese concepto o tema (ej: *OIDC*, *SAML*, *Middlewares / Seguridad*, *FarmaLink*, *Keycloak*, *Postman*, etc.).
+- **MODO APPEND-ONLY (ENRIQUECIMIENTO CONTINUO):** Si el tema, pregunta, duda o profundización ya tiene una nota existente en el baúl:
+  * **ESTÁ ESTRICTAMENTE PROHIBIDO CREAR UN ARCHIVO DUPLICADO O SEPARADO.**
+  * Abrir la nota existente y **agregar la nueva información abajo al final (append)** con una nueva sección (ej: `--- \n\n## 📝 [Fecha] - Pregunta / Profundización: <Título>\n...`).
+  * Conservar intactos los enlaces originales (`**Rama:** [[...]]`), sus metadatos y el grafo de Obsidian.
+- **CREACIÓN DE NOTAS NUEVAS:** Crear un archivo `.md` nuevo **únicamente** cuando se trate de un concepto, laboratorio o clase completamente nuevo que no tenga nota previa relacionada.
+
+### 🌳 2. Enrutamiento y Mantenimiento de Grafo:
+- **AUTO-REGISTRO PROACTIVO:** Cada nuevo concepto, duda o laboratorio se registra automáticamente con su enlace a la rama correspondiente.
+- **NUEVAS MATERIAS / TEMAS:** Si se consulta sobre una materia nueva de la carrera, crear su propio Hub dedicado (ej: `Hub_Sistemas_Operativos.md`) conectado a `00_Indice_Maestro.md`.
+- **PLUGIN DATAVIEW:** Utilizar bloques ```dataview para generar tablas dinámicas en los Hubs.
+
+---
 
 ## 🛑 Regla de Sincronización Git:
-- **SIN PUSH AUTOMÁTICO:** Guardar todos los cambios en el disco local (`C:\Users\arrai\OneDrive\Documentos\obsidian-utn\`). **NO hacer `git push` automáticamente**.
-- **PUSH SOLO A SOLICITUD:** Ejecutar `git push` únicamente cuando el usuario lo solicite de forma explícita.
+- **SIN PUSH AUTOMÁTICO:** Guardar cambios localmente en el disco. Ejecutar `git push` únicamente cuando el usuario lo solicite de forma explícita.
