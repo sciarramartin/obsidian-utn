@@ -1,4 +1,4 @@
-﻿# Materia: Integración de Aplicaciones en Entorno Web (IAEW)
+# Materia: Integración de Aplicaciones en Entorno Web (IAEW)
 **Rama:** [[Hub_IAEW|IAEW]]
 
 **Universidad:** UTN FRC (Universidad Tecnológica Nacional - Facultad Regional Córdoba)  
@@ -21,6 +21,7 @@ La materia **Integración de Aplicaciones en Entorno Web** se enfoca en el dise�
 - Instructivo Paso a Paso: Laboratorio JWT y Keycloak
 - Actividad Práctica Clase 02: E-commerce Integrado (API REST + MongoDB)
 - Actividad Práctica Clase 03: Seguridad en API REST con Middlewares, Roles y API Keys
+- [[2026-09-03_flujo_password_deprecado_y_pkce_oauth2|Clase 04: Flujo Password en Keycloak/Postman y Fundamentos PKCE]]
 
 ---
 
