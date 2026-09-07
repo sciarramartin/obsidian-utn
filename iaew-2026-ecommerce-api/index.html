@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>IAEW 2026 - Clases</title>
+    <style>
+      :root {
+        --bg: #f6f8fb;
+        --ink: #10202f;
+        --muted: #5d6b78;
+        --blue: #005baa;
+        --cyan: #00a6c8;
+        --green: #35b779;
+        --line: #d8e2ea;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      main {
+        min-height: 100vh;
+        display: grid;
+        align-items: center;
+        padding: 3rem 1.25rem;
+      }
+
+      .wrap {
+        width: min(960px, 100%);
+        margin: 0 auto;
+      }
+
+      .brand {
+        width: min(320px, 68vw);
+        height: auto;
+        margin-bottom: 2.2rem;
+      }
+
+      .kicker {
+        color: var(--blue);
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0.4rem 0 1rem;
+        font-size: clamp(2.3rem, 5vw, 4.6rem);
+        line-height: 1.04;
+        letter-spacing: 0;
+      }
+
+      p {
+        max-width: 760px;
+        color: var(--muted);
+        font-size: 1.15rem;
+        line-height: 1.55;
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.9rem;
+        margin-top: 2rem;
+      }
+
+      a,
+      .class-card {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        min-height: 96px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 1rem;
+        color: var(--ink);
+        background: #fff;
+        text-decoration: none;
+        font-weight: 800;
+      }
+
+      .class-card {
+        justify-content: space-between;
+      }
+
+      .disabled {
+        color: #72808d;
+        background: #eef3f7;
+        cursor: default;
+      }
+
+      a span,
+      .class-card span {
+        color: var(--muted);
+        font-size: 0.95rem;
+        font-weight: 500;
+        line-height: 1.35;
+      }
+
+      a.primary {
+        border-color: transparent;
+        color: #fff;
+        background: linear-gradient(90deg, var(--blue), var(--cyan), var(--green));
+      }
+
+      a.primary span {
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .badge {
+        width: fit-content;
+        border-radius: 999px;
+        padding: 0.2rem 0.55rem;
+        background: rgba(0, 91, 170, 0.1);
+        color: var(--blue);
+        font-size: 0.78rem;
+        font-weight: 800;
+      }
+
+      .primary .badge {
+        background: rgba(255, 255, 255, 0.18);
+        color: #fff;
+      }
+
+      .disabled .badge {
+        background: #dde6ee;
+        color: #72808d;
+      }
+
+      .repo-link {
+        margin-top: 1rem;
+      }
+
+      .tpi-link {
+        grid-column: 1 / -1;
+      }
+
+      @media (max-width: 720px) {
+        .actions {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="wrap">
+        <img class="brand" src="clases/clase-02/presentacion/assets/logo-utn-frc-azul.png" alt="UTN Facultad Regional Córdoba" />
+        <div class="kicker">IAEW 2026 · UTN FRC</div>
+        <h1>Clases y materiales</h1>
+        <p>
+          Índice público de clases. Dentro de cada clase vas a encontrar la actividad práctica,
+          la presentación HTML y el material adicional correspondiente.
+        </p>
+        <div class="actions">
+          <a class="class-card primary tpi-link" href="tpi/">Trabajo Práctico Integrador<span>Enunciado 2026, entregas, seguridad, evaluación y dominios propuestos.</span><span class="badge">Disponible</span></a>
+          <span class="class-card disabled">Clase 00<span>Mapa de cursada y TPI.</span><span class="badge">Pendiente</span></span>
+          <span class="class-card disabled">Clase 01<span>Integraciones web, cloud y ecosistemas.</span><span class="badge">Pendiente</span></span>
+          <a class="class-card primary" href="clases/clase-02/">Clase 02<span>E-commerce integrado - API REST + MongoDB.</span><span class="badge">Disponible</span></a>
+          <a class="class-card primary" href="clases/clase-03/">Clase 03<span>Seguridad aplicada a acciones de negocio.</span><span class="badge">Disponible</span></a>
+          <span class="class-card disabled">Clase 04<span>Cuando REST request-response no alcanza.</span><span class="badge">Pendiente</span></span>
+          <span class="class-card disabled">Clase 05<span>Resiliencia de integraciones.</span><span class="badge">Pendiente</span></span>
+          <span class="class-card disabled">Clase 06<span>Observabilidad de integraciones.</span><span class="badge">Pendiente</span></span>
+          <span class="class-card disabled">Clase 07<span>Autodocumentación e IA para documentar.</span><span class="badge">Pendiente</span></span>
+          <span class="class-card disabled">Clase 08<span>IA aplicada a integraciones y MCP.</span><span class="badge">Pendiente</span></span>
+          <span class="class-card disabled">Clase 09<span>Testing de integración y contratos.</span><span class="badge">Pendiente</span></span>
+          <span class="class-card disabled">Clase 10<span>Cloud e IaC con AWS Academy.</span><span class="badge">Pendiente</span></span>
+          <span class="class-card disabled">Clase 11<span>Clínica TPI y demo final.</span><span class="badge">Pendiente</span></span>
+        </div>
+        <a class="repo-link" href="https://github.com/utn-frc-iaew/iaew-2026-ecommerce-api">Repositorio<span>Código fuente, estructura de clases y materiales publicados.</span></a>
+      </div>
+    </main>
+  </body>
+</html>

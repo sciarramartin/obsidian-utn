@@ -1,0 +1,21 @@
+Respuestas y Reflexion - Clase 03
+Materia: Integracion de Aplicaciones en Entorno Web (IAEW - UTN FRC)
+Estudiante: Martin Sciarra
+
+1. Pregunta principal: Que endpoints de mi API podrian ser peligrosos si los ejecuta un agente de IA sin autorizacion suficiente?
+
+Si dejamos que una IA interactue con la API sin controlar sus permisos, corremos riesgos importantes:
+- En lecturas: Si consulta pedidos (GET /pedidos) sin permiso, podria filtrar datos privados de clientes como nombres, mails y montos de compra.
+- En escrituras: Si crea productos (POST /productos) o confirma pedidos (POST /pedidos/:id/confirmar), podria cambiar precios, descontar stock fisico real o generar compras no deseadas.
+- Roles: Las acciones de catalogo deben exigir rol admin y API key interna, mientras que las compras deben quedar reservadas al rol cliente.
+- Auditoria: Para controlar lo que hace la IA, es indispensable guardar logs con la fecha y hora, el identificador del usuario o agente, la IP, el endpoint llamado y si la accion fue aceptada o rechazada.
+
+2. Por que usamos 401 Unauthorized y 403 Forbidden?
+- 401 Unauthorized significa que no sabemos quien es el usuario (falta el token, la API key o son invalidos).
+- 403 Forbidden significa que ya sabemos quien es el usuario, pero no tiene permiso para esa accion (por ejemplo, un cliente intentando crear un producto de admin).
+
+3. Por que usamos middlewares en Express?
+Para no repetir validaciones con if en cada ruta. El middleware frena la peticion antes de llegar al controlador si no cumple los requisitos, dejando el codigo mas limpio y ordenado.
+
+4. Por que la API Key va en el archivo .env y no en el codigo?
+Porque el codigo se sube a GitHub y la clave quedaria publica. El archivo .env se queda unicamente en la maquina local para proteger los secretos.

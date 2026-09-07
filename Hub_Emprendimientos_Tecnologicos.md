@@ -18,6 +18,7 @@
 * [[2026-08-28_idea_proyecto_plataforma_farmacias_receta_electronica|Idea de Proyecto: FarmaLink]]
 * [[2026-08-30_idea_preliminar_plataforma_farmacias_recetas|Alcance, Flujo y Tablero Farmacias / Pacientes]]
 * [[2026-08-31_bmc_postits_plataforma_farmacias|Business Model Canvas: Post-its del Tablero FarmaLink]]
+* [[2026-09-06_banco_preguntas_encuesta_farmalink|Banco de Preguntas para Encuestas y Validación]]
 
 ---
 

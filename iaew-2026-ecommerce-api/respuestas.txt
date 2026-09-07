@@ -1,21 +1,76 @@
-Respuestas y Reflexion - Clase 03
-Materia: Integracion de Aplicaciones en Entorno Web (IAEW - UTN FRC)
-Estudiante: Martin Sciarra
+================================================================================
+IAEW 2026 - CLASE 04: MENSAJERÍA ASINCRÓNICA CON RABBITMQ Y WORKERS
+Estudiante: Martín Sciarra
+Fecha: 07/09/2026
+================================================================================
 
-1. Pregunta principal: Que endpoints de mi API podrian ser peligrosos si los ejecuta un agente de IA sin autorizacion suficiente?
+1. ¿QUÉ APRENDIMOS Y QUÉ HICIMOS EN LA CLASE 4? (RESUMEN EN PALABRAS SIMPLES)
+--------------------------------------------------------------------------------
+En esta clase aprendimos a no hacer esperar al usuario por tareas secundarias. 
+Hasta la clase 3, cuando se confirmaba un pedido, todo se hacía de forma sincrónica 
+(el cliente se quedaba esperando que se guarde, se descuente stock y se notifique).
 
-Si dejamos que una IA interactue con la API sin controlar sus permisos, corremos riesgos importantes:
-- En lecturas: Si consulta pedidos (GET /pedidos) sin permiso, podria filtrar datos privados de clientes como nombres, mails y montos de compra.
-- En escrituras: Si crea productos (POST /productos) o confirma pedidos (POST /pedidos/:id/confirmar), podria cambiar precios, descontar stock fisico real o generar compras no deseadas.
-- Roles: Las acciones de catalogo deben exigir rol admin y API key interna, mientras que las compras deben quedar reservadas al rol cliente.
-- Auditoria: Para controlar lo que hace la IA, es indispensable guardar logs con la fecha y hora, el identificador del usuario o agente, la IP, el endpoint llamado y si la accion fue aceptada o rechazada.
+En la clase 4 implementamos un "Desacople Asincrónico":
+- La API atiende al cliente, confirma el pedido en MongoDB y responde rápido (200 OK).
+- Inmediatamente después, la API tira un evento 'pedido.confirmado' a un buzón (RabbitMQ).
+- Un proceso separado que corre en segundo plano (Worker) saca el mensaje de la cola 
+  cuando tiene tiempo, marca la notificación como 'procesada' y le avisa a RabbitMQ (ack).
+- Si el Worker está apagado, el mensaje queda guardado en la cola (Ready: 1) y no se 
+  pierde nada. Cuando el Worker arranca, lo consume y la cola vuelve a 0.
 
-2. Por que usamos 401 Unauthorized y 403 Forbidden?
-- 401 Unauthorized significa que no sabemos quien es el usuario (falta el token, la API key o son invalidos).
-- 403 Forbidden significa que ya sabemos quien es el usuario, pero no tiene permiso para esa accion (por ejemplo, un cliente intentando crear un producto de admin).
 
-3. Por que usamos middlewares en Express?
-Para no repetir validaciones con if en cada ruta. El middleware frena la peticion antes de llegar al controlador si no cumple los requisitos, dejando el codigo mas limpio y ordenado.
+2. RESPUESTA A6 - EXPLICAR EL LÍMITE (FALLO EN RABBITMQ Y REINTENTOS)
+--------------------------------------------------------------------------------
+Pregunta: ¿Qué puede ocurrir si MongoDB guarda el pedido confirmado y RabbitMQ falla 
+antes de publicar? ¿Por qué no conviene reconfirmar a ciegas?
 
-4. Por que la API Key va en el archivo .env y no en el codigo?
-Porque el codigo se sube a GitHub y la clave quedaria publica. El archivo .env se queda unicamente en la maquina local para proteger los secretos.
+Respuesta:
+Si MongoDB guarda la confirmación y RabbitMQ falla antes de publicar el evento, 
+se produce una inconsistencia ("escritura dual"): el pedido figura confirmado en 
+la base de datos, pero el evento nunca se emitió y el cliente jamás recibirá su 
+notificación ni factura. 
+
+No conviene reconfirmar a ciegas porque al reenviar la petición se corre el riesgo 
+de descontar stock dos veces, duplicar cobros o generar errores de negocio (409 Conflict). 
+La evolución arquitectónica para resolver esto de forma confiable es el "Patrón Outbox" 
+(Transactional Outbox), donde el evento se guarda dentro de la misma transacción 
+de la base de datos y un proceso confiable lo lee y publica en RabbitMQ.
+
+
+3. RESPUESTA A7 - ELECCIÓN DE INTEGRACIÓN PARA EL TPI Y AGENTES DE IA
+--------------------------------------------------------------------------------
+A) Elección de Integración para el Dominio (E-commerce / FarmaLink):
+- Mecanismo elegido: Mensajería Asincrónica con RabbitMQ (Colas).
+- Interacción: Notificación de pedido listo para retiro / despacho de medicamentos.
+- ¿Quién inicia?: El servicio de Gestión de Pedidos cuando la farmacia arma el paquete.
+- ¿Quién recibe?: El Worker del servicio de Notificaciones (envío de WhatsApp / Email).
+- ¿Necesita respuesta inmediata?: No. La farmacia necesita marcar el pedido como listo 
+  y seguir atendiendo; el envío del mensaje al cliente puede demorar unos segundos.
+- ¿Qué ocurre si el receptor está caído?: El mensaje queda persistido en la cola durable 
+  de RabbitMQ. Cuando el servicio de notificaciones se reinicie, consumirá todos los 
+  mensajes acumulados sin pérdida de datos.
+
+B) Pregunta sobre Agentes de IA:
+- ¿Qué scope necesita un agente de IA para confirmar un pedido?:
+  Necesita estrictamente el scope 'confirm:pedidos' (Principio de Menor Privilegio).
+- ¿Qué debe consultar antes de reintentar tras un error 503?:
+  Antes de volver a mandar el POST de confirmación, el agente debe hacer una consulta 
+  de lectura idempotente (GET /pedidos/:id) para comprobar si el pedido ya quedó en 
+  estado 'confirmado'. Si ya está confirmado, no debe reintentar la confirmación para 
+  evitar efectos secundarios.
+
+
+4. INVENTARIO DE EVIDENCIAS GENERADAS
+--------------------------------------------------------------------------------
+- Screenshot 2026-09-07 201148.png -> Petición y creación de producto con API Key
+- Screenshot 2026-09-07 201541.png -> Petición y creación de pedido en Postman (201 Created)
+- Screenshot 2026-09-07 201716.png -> Confirmación de pedido en Postman con evento (200 OK)
+- Screenshot 2026-09-07 201826.png -> Consulta GET /pedidos con estado 'pendiente'
+- Screenshot 2026-09-07 201956.png -> CloudAMQP: Cola con mensaje esperando (Ready: 1)
+- Screenshot 2026-09-07 202720.png -> Consola CloudAMQP: vista general de la cola
+- Screenshot 2026-09-07 202826.png -> CloudAMQP: Cola vaciada tras el worker (Ready: 0)
+- Screenshot 2026-09-07 203505.png -> Consulta GET /pedidos con estado 'procesada'
+- Screenshot 2026-09-07 203635.png -> Prueba de error: 401 Unauthorized (sin token)
+- Screenshot 2026-09-07 203700.png -> Prueba de error: 403 Forbidden (scope insuficiente)
+- Screenshot 2026-09-07 203729.png -> Prueba de error: 409 Conflict (pedido ya confirmado)
+================================================================================

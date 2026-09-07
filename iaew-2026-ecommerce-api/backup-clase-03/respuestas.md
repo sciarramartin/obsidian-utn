@@ -1,0 +1,34 @@
+# Respuestas Clase 02 - E-commerce integrado (API REST + MongoDB)
+
+**Estudiante:** Martín Sciarra  
+**Materia:** Integración de Aplicaciones en Entorno Web (IAEW - UTN FRC)  
+**Fecha:** 2026-08-24  
+
+---
+
+## 1. ¿Qué endpoint fue CRUD?
+**Respuesta:**
+- `GET /productos` y `POST /productos`
+- **Justificación:** Son operaciones tradicionales de lectura de catálogo y creación de entidades de datos estándar, donde la API simplemente traslada la información entre el cliente HTTP y la colección de MongoDB sin alterar reglas de negocio complejas.
+
+---
+
+## 2. ¿Qué endpoint fue una operación de negocio?
+**Respuesta:**
+- `POST /pedidos/:id/confirmar`
+- **Justificación:** No es una simple edición de un atributo; ejecuta una **transición de máquina de estados** en el dominio. Valida que el pedido esté en estado `pendiente`, verifica que exista stock físico suficiente en cada producto del catálogo, descuenta el stock de forma atómica y pasa el pedido a `confirmado` registrando la fecha/hora de confirmación.
+
+---
+
+## 3. ¿Qué regla de negocio protegimos?
+**Respuesta:**
+- **Invariante 1 (Estado de confirmación única):** Que un pedido únicamente puede ser confirmado si se encuentra en estado `pendiente`. Se evita la doble confirmación o doble cobro respondiendo `409 Conflict` si ya fue confirmado.
+- **Invariante 2 (Consistencia de Inventario):** Que ninguna compra pueda confirmarse si alguno de los productos solicitados no cuenta con stock suficiente en el inventario.
+- **Invariante 3 (Cálculo fidedigno de totales):** Que el precio unitario y el total acumulado sean calculados en el servidor basándose en los datos reales del catálogo y no en lo que el cliente intente enviar por el payload.
+
+---
+
+## 4. ¿Por qué 409 Conflict es más claro que 500?
+**Respuesta:**
+- **`500 Internal Server Error`** comunica que el servidor sufrió una falla de infraestructura inesperada, un bug o una excepción no controlada en su código. Esto genera confusión al cliente o frontend, sugiriendo que debe reintentar o que el servicio se cayó.
+- **`409 Conflict`** comunica con precisión semántica que la solicitud HTTP es técnicamente válida, pero **entra en conflicto con el estado actual del recurso en el modelo de negocio** (el pedido ya fue procesado o no hay inventario disponible). Informa claramente al cliente cuál fue la regla infringida sin enmascararlo como una falla del sistema.

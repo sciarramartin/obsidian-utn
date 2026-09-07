@@ -1,4 +1,4 @@
 node_modules/
 .env
 .DS_Store
-.mongodb_data/
+npm-debug.log*

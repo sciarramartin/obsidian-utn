@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TPI IAEW 2026</title>
+    <style>
+      :root {
+        --bg: #f5f7fa;
+        --ink: #142334;
+        --muted: #5e6c7a;
+        --line: #d8e1ea;
+        --blue: #005baa;
+        --cyan: #009fbd;
+        --green: #2a9d72;
+        --panel: #ffffff;
+        --soft: #edf6fb;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      header {
+        border-bottom: 1px solid var(--line);
+        background: #ffffff;
+      }
+
+      .topbar,
+      main,
+      footer {
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem 0;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        min-width: 0;
+      }
+
+      .logo img {
+        height: 46px;
+        width: auto;
+      }
+
+      .logo strong {
+        display: block;
+        font-size: 1rem;
+      }
+
+      .logo span {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 0.5rem;
+      }
+
+      nav a,
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 38px;
+        padding: 0.55rem 0.8rem;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--ink);
+        background: #fff;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.92rem;
+      }
+
+      nav a:hover,
+      .button:hover {
+        border-color: var(--cyan);
+        color: var(--blue);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+        gap: 2rem;
+        align-items: center;
+        padding: 3rem 0 2.3rem;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
+        margin-bottom: 1rem;
+        font-size: clamp(2.4rem, 6vw, 4.8rem);
+        line-height: 1.02;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        margin-bottom: 1rem;
+        font-size: 1.9rem;
+        letter-spacing: 0;
+      }
+
+      h3 {
+        margin-bottom: 0.55rem;
+        font-size: 1.08rem;
+      }
+
+      p,
+      li,
+      td,
+      th {
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+
+      .lead {
+        max-width: 760px;
+        color: var(--muted);
+        font-size: 1.18rem;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .hero-panel {
+        padding: 1.1rem;
+      }
+
+      .flow {
+        display: grid;
+        gap: 0.8rem;
+      }
+
+      .flow div {
+        padding: 0.9rem;
+        border: 1px solid var(--line);
+        border-left: 5px solid var(--cyan);
+        border-radius: 8px;
+        background: var(--soft);
+        font-weight: 800;
+      }
+
+      section {
+        padding: 2.2rem 0;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .grid.three {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .grid.four {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .card {
+        min-height: 150px;
+        padding: 1rem;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .card.compact {
+        min-height: 0;
+      }
+
+      .card ul {
+        margin: 0;
+        padding-left: 1.15rem;
+      }
+
+      .tag {
+        display: inline-flex;
+        margin-bottom: 0.55rem;
+        padding: 0.25rem 0.55rem;
+        border-radius: 999px;
+        background: rgba(0, 91, 170, 0.1);
+        color: var(--blue);
+        font-size: 0.78rem;
+        font-weight: 800;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      th,
+      td {
+        padding: 0.8rem;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: var(--soft);
+        color: #0d2d44;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      code {
+        padding: 0.08rem 0.25rem;
+        border-radius: 4px;
+        background: #edf2f7;
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      }
+
+      .domain {
+        display: grid;
+        grid-template-columns: 220px minmax(0, 1fr);
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding: 1rem;
+      }
+
+      .domain h3 {
+        margin-bottom: 0.4rem;
+      }
+
+      .domain ul {
+        margin: 0;
+        padding-left: 1.15rem;
+      }
+
+      .checklist {
+        columns: 2;
+        column-gap: 2rem;
+        margin: 0;
+        padding-left: 1.15rem;
+      }
+
+      footer {
+        padding: 2rem 0 3rem;
+        color: var(--muted);
+      }
+
+      @media (max-width: 850px) {
+        .topbar,
+        .hero,
+        .section-head,
+        .domain {
+          display: block;
+        }
+
+        nav {
+          justify-content: flex-start;
+          margin-top: 1rem;
+        }
+
+        .hero {
+          padding-top: 2rem;
+        }
+
+        .hero-panel {
+          margin-top: 1.4rem;
+        }
+
+        .grid,
+        .grid.three,
+        .grid.four {
+          grid-template-columns: 1fr;
+        }
+
+        .checklist {
+          columns: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="topbar">
+        <div class="logo">
+          <img src="assets/logo-utn-frc-azul.png" alt="UTN Facultad Regional Córdoba" />
+          <div>
+            <strong>IAEW 2026</strong>
+            <span>Trabajo Práctico Integrador</span>
+          </div>
+        </div>
+        <nav aria-label="Navegación principal">
+          <a href="#entregas">Entregas</a>
+          <a href="#seguridad">Seguridad</a>
+          <a href="#evaluacion">Evaluación</a>
+          <a href="#dominios">Dominios</a>
+          <a href="#enunciado">Enunciado</a>
+          <a href="detalle-dominios.html">Detalle dominios</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <span class="tag">Trabajo grupal · 3 a 5 integrantes</span>
+          <h1>Trabajo Práctico Integrador</h1>
+          <p class="lead">Diseñar e implementar una API integrada con persistencia, OAuth 2.0/JWT, scopes, asincronía, una integración adicional, observabilidad, pruebas y documentación reproducible.</p>
+          <a class="button" href="#enunciado">Leer enunciado</a>
+          <a class="button" href="#dominios">Ver dominios propuestos</a>
+          <a class="button" href="detalle-dominios.html">Detalle completo por dominio</a>
+        </div>
+        <div class="panel hero-panel" aria-label="Mapa conceptual del TPI">
+          <div class="flow">
+            <div>API REST + persistencia</div>
+            <div>Auth0 / Authorization Server</div>
+            <div>Eventos, broker o flujo diferido</div>
+            <div>Webhook, gRPC o WebSocket</div>
+            <div>Logs, pruebas, README y defensa</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="enunciado">
+        <div class="section-head">
+          <div>
+            <h2>Enunciado</h2>
+            <p class="muted">El TPI integra las capacidades principales de la materia en una solución defendible y reproducible.</p>
+          </div>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <span class="tag">Objetivo</span>
+            <h3>Construir una solución integrada</h3>
+            <p>El equipo debe resolver un caso de negocio mediante una API REST con persistencia, seguridad OAuth 2.0/JWT, scopes, asincronía, una integración adicional, observabilidad, pruebas y documentación técnica.</p>
+          </article>
+          <article class="card">
+            <span class="tag">Modalidad</span>
+            <h3>Trabajo grupal</h3>
+            <p>Equipos de 3 a 5 integrantes, un repositorio por equipo, elección de dominio registrada con la cátedra, dos entregas principales y defensa técnica presencial.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="alcance">
+        <div class="section-head">
+          <div>
+            <h2>Alcance mínimo obligatorio</h2>
+            <p class="muted">Estos puntos deben estar resueltos en la entrega final.</p>
+          </div>
+        </div>
+        <div class="grid four">
+          <article class="card compact">
+            <span class="tag">API</span>
+            <ul>
+              <li>API REST sobre HTTP con contrato OpenAPI 3.1.</li>
+              <li>Paths, schemas, responses y ejemplos.</li>
+              <li>CRUD de dos entidades.</li>
+              <li>Una transacción multi-paso.</li>
+            </ul>
+          </article>
+          <article class="card compact">
+            <span class="tag">Seguridad y datos</span>
+            <ul>
+              <li>OAuth 2.0 + JWT.</li>
+              <li>Expiración, validación y scopes o roles básicos.</li>
+              <li>Datos SQL o NoSQL.</li>
+              <li>Migraciones/seed, validación de entrada y manejo de errores.</li>
+            </ul>
+          </article>
+          <article class="card compact">
+            <span class="tag">Integración</span>
+            <ul>
+              <li>Productor -> broker -> consumidor.</li>
+              <li>RabbitMQ, Kafka, SQS, EventBridge o equivalente aprobado.</li>
+              <li>Una integración: Webhook, gRPC o WebSocket.</li>
+              <li>Caso visible en la demo.</li>
+            </ul>
+          </article>
+          <article class="card compact">
+            <span class="tag">Operación</span>
+            <ul>
+              <li>Docker por servicio y Docker Compose funcional.</li>
+              <li>Logs JSON y dashboard con p95, throughput y error rate.</li>
+              <li>Postman collection y prueba de carga con reporte.</li>
+              <li>README reproducible y demo presencial.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="entregas">
+        <div class="section-head">
+          <div>
+            <h2>Entregas</h2>
+            <p class="muted">Dos hitos grupales con foco incremental.</p>
+          </div>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <span class="tag">Lunes 28/09/2026</span>
+            <h3>Entrega 1 - Diseño y esqueleto</h3>
+            <ul>
+              <li><strong>Diagramas C4:</strong> Context, Container y Component.</li>
+              <li><strong>ADRs:</strong> decisiones clave sobre REST/gRPC, tipo de base de datos, seguridad y estilo de API.</li>
+              <li><strong>Contrato de API:</strong> OpenAPI 3.1 en YAML/JSON con al menos un ejemplo de request/response.</li>
+              <li><strong>Modelo de datos:</strong> SQL o NoSQL, más estrategia de migraciones o seed.</li>
+              <li><strong>Esqueleto de ejecución:</strong> <code>docker-compose.yml</code> inicial con servicios <code>hello</code> o placeholder para API, DB y broker, más README con pasos mínimos de ejecución local.</li>
+              <li><strong>Evidencia de entrega:</strong> tag de release <code>v1.0.0</code>, última commit hash en el README, archivo <code>.zip</code> descargado del repositorio y subido a la UV/Moodle.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <span class="tag">Lunes 16/11/2026</span>
+            <h3>Entrega 2 - Implementación y defensa</h3>
+            <ul>
+              <li><strong>Código y API REST operativa:</strong> todos los componentes, CRUD de 2 entidades y 1 transacción multi-paso funcionando.</li>
+              <li><strong>Seguridad:</strong> OAuth 2.0 + JWT con expiración/validación y scopes o roles básicos aplicados a endpoints protegidos.</li>
+              <li><strong>Asincronía:</strong> flujo productor -> broker -> consumidor con RabbitMQ, Kafka, SQS, EventBridge o equivalente aprobado, y un efecto visible.</li>
+              <li><strong>Integración adicional:</strong> elegir 1 entre Webhook con firma/secreto compartido, gRPC con proto/stub o WebSocket con stream/suscripción.</li>
+              <li><strong>Ejecución local y datos:</strong> Docker por servicio, Docker Compose funcional para levantar API, DB, broker y visualizadores si corresponde; DB SQL o NoSQL con migraciones/seed reproducibles.</li>
+              <li><strong>Observabilidad y pruebas:</strong> logs JSON, dashboard con latencia p95, throughput y error rate; Postman collection con variables/ambientes y una prueba de carga con JMeter o Postman, con reporte.</li>
+              <li><strong>README, release y entrega:</strong> README obligatorio en la raíz del repo, tag <code>v1.0.0</code>, última commit hash, archivo <code>.zip</code> subido a UV/Moodle y demo/defensa presencial de 15 minutos por equipo.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="seguridad">
+        <div class="section-head">
+          <div>
+            <h2>Seguridad requerida</h2>
+            <p class="muted">La API debe validar identidad, permisos y configuración antes de ejecutar acciones sensibles.</p>
+          </div>
+        </div>
+        <div class="grid three">
+          <article class="card">
+            <span class="tag">Authorization Server</span>
+            <h3>Auth0 o equivalente</h3>
+            <p>Configurar una API, audience, issuer, scopes y un cliente Machine to Machine.</p>
+          </article>
+          <article class="card">
+            <span class="tag">OAuth 2.0</span>
+            <h3>client_credentials</h3>
+            <p>Obtener access token desde el cliente y enviarlo como Bearer token a la API.</p>
+          </article>
+          <article class="card">
+            <span class="tag">Resource Server</span>
+            <h3>Validación JWT</h3>
+            <p>Verificar firma, issuer, audience, expiración y scopes requeridos por endpoint.</p>
+          </article>
+        </div>
+        <div class="grid" style="margin-top: 1rem">
+          <article class="card compact">
+            <span class="tag">Configuración requerida</span>
+            <ul>
+              <li>Definir scopes según el dominio, por ejemplo <code>read:pedidos</code>, <code>write:pedidos</code>, <code>confirm:pedidos</code>, <code>admin:productos</code>.</li>
+              <li>Asignar permisos/scopes al cliente Machine to Machine.</li>
+              <li>Documentar en el README cómo configurar Auth0, qué scopes existen y cómo probar operaciones protegidas.</li>
+            </ul>
+          </article>
+          <article class="card compact">
+            <span class="tag">API key</span>
+            <ul>
+              <li>Incluir un endpoint básico protegido con <code>x-api-key</code>.</li>
+              <li>Usarlo como comparación con OAuth 2.0/JWT, no como reemplazo del esquema principal.</li>
+              <li>No subir secretos reales al repositorio.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="evaluacion">
+        <h2>Evaluación</h2>
+        <table>
+          <tr><th>Criterio</th><th>Puntaje</th><th>Qué se observará</th></tr>
+          <tr><td>Funcionalidad end-to-end</td><td>2.5</td><td>CRUD, flujo multi-paso, asincronía e integración funcionando.</td></tr>
+          <tr><td>Diseño y arquitectura</td><td>2.5</td><td>C4 Context/Container/Component, despliegue consistente con el código y ADRs claras para broker, DB, seguridad y estilo de API.</td></tr>
+          <tr><td>API y seguridad</td><td>1.5</td><td>Contrato, códigos HTTP, Auth0/OAuth 2.0, JWT, scopes y protección de acciones sensibles.</td></tr>
+          <tr><td>Observabilidad y pruebas</td><td>1.5</td><td>Dashboard con latencia p95, throughput y error rate; logs correlacionables; Postman collection ejecutable y prueba de carga con resultados adjuntos.</td></tr>
+          <tr><td>README y reproducibilidad</td><td>2.0</td><td>README exhaustivo, Docker Compose de punta a punta, tag de release y commit hash incluidos.</td></tr>
+        </table>
+        <p class="muted" style="margin-top: 1rem"><strong>Aprobación:</strong> 6/10 o más, con demo defendible y ejecución reproducible.</p>
+      </section>
+
+      <section id="readme">
+        <div class="section-head">
+          <div>
+            <h2>Checklist obligatorio del README</h2>
+            <p class="muted">El README debe permitir que otra persona levante, pruebe y entienda el proyecto sin depender de explicaciones orales.</p>
+          </div>
+        </div>
+        <article class="card compact">
+          <ul class="checklist">
+            <li>Proyecto, dominio elegido e integrantes.</li>
+            <li>Descripción del problema y alcance.</li>
+            <li>Arquitectura en un vistazo: diagrama C4 o link a <code>docs/</code>.</li>
+            <li>Requisitos previos.</li>
+            <li>Variables de entorno y explicación de <code>.env.example</code>.</li>
+            <li>Configuración de Auth0 o proveedor equivalente: API, audience, issuer, scopes, cliente Machine to Machine y permisos.</li>
+            <li>Cómo obtener un token con <code>client_credentials</code>.</li>
+            <li>Cómo probar endpoints protegidos con Bearer token.</li>
+            <li>Cómo probar el ejemplo con <code>x-api-key</code>.</li>
+            <li>Comandos para levantar localmente.</li>
+            <li>Cómo cargar datos iniciales.</li>
+            <li>Cómo ejecutar pruebas.</li>
+            <li>Cómo disparar el flujo asincrónico y dónde ver el efecto.</li>
+            <li>Cómo probar la integración elegida.</li>
+            <li>Cómo observar el sistema: logs, correlation ID, dashboard o métricas.</li>
+            <li>Endpoints principales y ejemplos de uso.</li>
+            <li>Decisiones técnicas principales o links a ADRs.</li>
+            <li>Limitaciones conocidas y mejoras futuras.</li>
+            <li>Tag/release y hash de commit de la entrega.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section id="optativos">
+        <div class="section-head">
+          <div>
+            <h2>Optativos con bono</h2>
+            <p class="muted">Suman valor cuando lo obligatorio está resuelto y defendible.</p>
+          </div>
+        </div>
+        <div class="grid four">
+          <article class="card compact"><span class="tag">Cloud</span><p>Despliegue en nube usando AWS Academy u otro entorno aprobado.</p></article>
+          <article class="card compact"><span class="tag">BFF</span><p>BFF o GraphQL además de REST.</p></article>
+          <article class="card compact"><span class="tag">Trazas</span><p>Métricas y trazas con OpenTelemetry exportadas a Jaeger/Grafana.</p></article>
+          <article class="card compact"><span class="tag">CI</span><p>Ejecución automática de linters, tests o colección Newman.</p></article>
+        </div>
+      </section>
+
+      <section id="dominios">
+        <div class="section-head">
+          <div>
+            <h2>Dominios ordenados</h2>
+            <p class="muted">Cada equipo elige un dominio y lo registra con la cátedra para evitar repeticiones.</p>
+          </div>
+          <a class="button" href="detalle-dominios.html">Ver detalle completo</a>
+        </div>
+
+        <article class="panel domain">
+          <div><span class="tag">Dominio</span><h3>1. Pedidos en restaurante</h3></div>
+          <ul>
+            <li>CRUD: productos y pedidos.</li>
+            <li>Flujo: confirmar pedido, calcular total, cambiar estado y generar orden de cocina.</li>
+            <li>Integración: WebSocket de cocina, Webhook de estado o gRPC a stock.</li>
+            <li>Scopes: `read:pedidos`, `write:pedidos`, `confirm:pedidos`, `admin:productos`.</li>
+          </ul>
+        </article>
+
+        <article class="panel domain">
+          <div><span class="tag">Dominio</span><h3>2. E-commerce</h3></div>
+          <ul>
+            <li>CRUD: productos y pedidos o carritos.</li>
+            <li>Flujo: confirmar compra con stock, total, pedido y pago simulado.</li>
+            <li>Integración: Webhook de pago, gRPC a stock o WebSocket de estado.</li>
+            <li>Scopes: `read:productos`, `write:productos`, `write:pedidos`, `confirm:compras`.</li>
+          </ul>
+        </article>
+
+        <article class="panel domain">
+          <div><span class="tag">Dominio</span><h3>3. Turnos de salud</h3></div>
+          <ul>
+            <li>CRUD: pacientes y turnos o profesionales.</li>
+            <li>Flujo: reservar turno validando disponibilidad y evitando solapamientos.</li>
+            <li>Integración: Webhook de confirmación, WebSocket de agenda o historia clínica simulada.</li>
+            <li>Scopes: `read:turnos`, `write:turnos`, `cancel:turnos`, `admin:profesionales`.</li>
+          </ul>
+        </article>
+
+        <article class="panel domain">
+          <div><span class="tag">Dominio</span><h3>4. Mesa de ayuda</h3></div>
+          <ul>
+            <li>CRUD: tickets y usuarios o agentes.</li>
+            <li>Flujo: escalar ticket validando prioridad, estado, responsable y SLA.</li>
+            <li>Integración: Webhook a canal externo, WebSocket de tablero o gRPC a usuarios.</li>
+            <li>Scopes: `read:tickets`, `write:tickets`, `assign:tickets`, `close:tickets`.</li>
+          </ul>
+        </article>
+
+        <article class="panel domain">
+          <div><span class="tag">Dominio</span><h3>5. Biblioteca digital</h3></div>
+          <ul>
+            <li>CRUD: títulos y usuarios o préstamos.</li>
+            <li>Flujo: prestar e-book validando cupo, usuario, vencimiento y espera.</li>
+            <li>Integración: WebSocket de lista de espera, Webhook a mailing o gRPC a catálogo.</li>
+            <li>Scopes: `read:titulos`, `write:titulos`, `read:prestamos`, `write:prestamos`.</li>
+          </ul>
+        </article>
+
+        <article class="panel domain">
+          <div><span class="tag">Dominio</span><h3>6. Eventos y entradas</h3></div>
+          <ul>
+            <li>CRUD: eventos y entradas o compras.</li>
+            <li>Flujo: comprar entrada validando disponibilidad, pago y emisión.</li>
+            <li>Integración: Webhook de pago, WebSocket de control de acceso o gRPC a validador.</li>
+            <li>Scopes: `read:eventos`, `write:eventos`, `buy:entradas`, `validate:entradas`.</li>
+          </ul>
+        </article>
+
+        <article class="panel domain">
+          <div><span class="tag">Dominio</span><h3>7. Alquiler de vehículos</h3></div>
+          <ul>
+            <li>CRUD: vehículos y reservas.</li>
+            <li>Flujo: confirmar reserva con disponibilidad, bloqueo, verificación y contrato.</li>
+            <li>Integración: gRPC a inventario, Webhook de reserva o WebSocket de disponibilidad.</li>
+            <li>Scopes: `read:vehiculos`, `write:vehiculos`, `read:reservas`, `confirm:reservas`.</li>
+          </ul>
+        </article>
+
+        <article class="panel domain">
+          <div><span class="tag">Dominio</span><h3>8. Salas de co-working</h3></div>
+          <ul>
+            <li>CRUD: salas y reservas.</li>
+            <li>Flujo: programar reserva validando disponibilidad, capacidad y recursos.</li>
+            <li>Integración: Webhook con calendario, WebSocket de ocupación o gRPC a recursos.</li>
+            <li>Scopes: `read:salas`, `write:salas`, `read:reservas`, `admin:recursos`.</li>
+          </ul>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <p>IAEW 2026 · Integración de Aplicaciones en Entorno Web · UTN Facultad Regional Córdoba</p>
+    </footer>
+  </body>
+</html>
