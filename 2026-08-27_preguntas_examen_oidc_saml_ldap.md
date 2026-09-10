@@ -1,4 +1,4 @@
-﻿# Preguntas y Respuestas Clave: OIDC (PKCE), SAML 2.0 y LDAP
+# Preguntas y Respuestas Clave: OIDC (PKCE), SAML 2.0 y LDAP
 **Rama:** [[Hub_IAEW|IAEW]]
 **Tags:** #materia/iaew #utn #sistemas #preguntas-examen #seguridad #oidc #pkce #saml #ldap #autoevaluacion  
 **Fecha:** 2026-08-27  
@@ -55,7 +55,59 @@
 > - Si está federado con LDAP/Active Directory, **no almacena las contraseñas**: delega la validación en tiempo real al servidor LDAP mediante conexiones cifradas LDAPS (puerto `636/TCP`).
 
 ---
-- OIDC y Flujo PKCE
-- Protocolo SAML 2.0
-- Protocolo LDAP y OIDC
-- Seguridad y Validación OIDC / OAuth2
+
+### 6. ¿Por qué los flujos "Password" (ROPC) e "Implicit Grant" están formalmente DEPRECADOS en OAuth 2.1, y qué flujo debe usarse en su lugar?
+> [!NOTE]
+> **Respuesta:**
+> - **Resource Owner Password Credentials (`password`):** Fue deprecado porque rompe el principio de delegación: la aplicación cliente le pide al usuario su usuario y contraseña, lo cual entrena al usuario a entregar credenciales a aplicaciones intermedias, expone las contraseñas al frontend y a intermediarios, e impide implementar MFA/2FA sin acoplamientos complejos.
+> - **Implicit Flow:** Fue deprecado porque devolvía el `access_token` en el fragmento hash (`#`) de la URL del navegador, exponiéndolo en el historial de navegación, logs de servidores y a través de ataques de scripts maliciosos (XSS / referer headers).
+> - **Reemplazo universal:** Se debe utilizar **Authorization Code con PKCE** tanto para aplicaciones frontend (SPAs) como para clientes móviles.
+
+---
+
+### 7. Para un Parcial Práctico: ¿Cuáles son los parámetros exactos para canjear un código PKCE en Postman (`POST /token`)?
+> [!NOTE]
+> **Respuesta:**
+> - **Método:** `POST`
+> - **URL:** `https://<idp-host>/realms/<realm>/protocol/openid-connect/token`
+> - **Headers:** `Content-Type: application/x-www-form-urlencoded`
+> - **Body (Form URL-Encoded):**
+>   1. `grant_type`: `authorization_code`
+>   2. `client_id`: ID del cliente público (ej. `spa-69650-martinsciarra`)
+>   3. `redirect_uri`: La misma URI de redirección registrada (ej. `http://localhost:4200/login-callback`)
+>   4. `code`: El código de autorización recibido tras autenticarse en el navegador.
+>   5. `code_verifier`: El texto plano original de alta entropía cuyo hash generó el `code_challenge`.
+>   *(Nota de examen: ¡NO se envía `client_secret` porque un cliente público no lo tiene!)*
+
+---
+
+### 8. ¿Qué causa el error `{"error": "invalid_grant", "error_description": "PKCE verification failed"}` y qué vector de ataque mitiga?
+> [!NOTE]
+> **Respuesta:**
+> Ocurre cuando el Identity Provider (Keycloak) calcula `SHA-256(code_verifier)` enviado en el canje de token y el resultado **no coincide** con el `code_challenge` que se registró al inicio del flujo en `/auth`.  
+> **Ataque que mitiga:** Demuestra que si un atacante o software malicioso intercepta el `code` de autorización (por ejemplo, capturando el tráfico del navegador o registrando un esquema de URL falso), **no puede obtener el token**, ya que el atacante no conoce el `code_verifier` efímero que reside exclusivamente en la memoria/sessionStorage del cliente legítimo.
+
+---
+
+### 9. ¿Por qué es obligatorio configurar `Web Origins` en Keycloak para una SPA y qué ocurre si se olvida?
+> [!NOTE]
+> **Respuesta:**
+> Las SPAs (React, Angular, Vue, JS vanilla) ejecutan llamadas HTTP asíncronas (`fetch` / `axios`) desde el navegador hacia un dominio distinto (el del IdP).  
+> Los navegadores aplican la **Same-Origin Policy (SOP)** y envían una petición preliminar `OPTIONS` (Preflight). Si en Keycloak no se configura el origen de la SPA en `Web Origins` (ej: `http://localhost:4200` o `*`), Keycloak no responderá los encabezados `Access-Control-Allow-Origin`, y el navegador bloqueará la lectura de la respuesta, impidiendo que la SPA obtenga los tokens aunque la contraseña del usuario sea correcta.
+
+---
+
+### 10. ¿Cuál es la diferencia entre validar un Access Token de forma "Offline" vs. "Online" en una API?
+> [!NOTE]
+> **Respuesta:**
+> - **Offline (Validación Criptográfica Local):** La API descarga una vez las claves públicas del IdP desde el endpoint JWKS (`/.well-known/openid-configuration` $\rightarrow$ `/protocol/openid-connect/certs`) y valida la firma RSA/ECDSA, emisor (`iss`) y expiración (`exp`) localmente en memoria. **Es ultra-rápida (0 ms de red)** y se usa en arquitecturas de microservicios de alto tráfico.
+> - **Online (Token Introspection, RFC 7662):** En cada petición, la API hace una llamada HTTP `POST /protocol/openid-connect/token/introspect` hacia Keycloak consultando si el token sigue activo. Permite revocación instantánea en caso de baja o compromiso de credenciales, pero añade latencia y sobrecarga sobre el Identity Provider.
+
+---
+*Conexiones conceptuales:*
+- [[2026-08-27_oidc_flujo_pkce_authorization_code|OIDC: Flujo Authorization Code con PKCE]]
+- [[2026-08-27_saml_autenticacion_federada_sso|Protocolo SAML 2.0]]
+- [[2026-08-27_ldap_protocolo_directorio_e_integracion_oidc|Protocolo LDAP y OIDC]]
+- [[2026-08-13_seguridad_y_validacion_oidc_oauth2|Seguridad y Validación OIDC / OAuth2]]
+- [[2026-09-10_actividad_clase_05_pkce_keycloak_spa|Bitácora Clase 05: PKCE Keycloak y SPA]]
+

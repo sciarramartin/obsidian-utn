@@ -1,4 +1,4 @@
-﻿# Protocolo OpenID Connect (OIDC): Flujo Authorization Code con PKCE
+# Protocolo OpenID Connect (OIDC): Flujo Authorization Code con PKCE
 **Rama:** [[Hub_IAEW|IAEW]]
 **Tags:** #materia/iaew #seguridad #oidc #pkce #oauth2 #jwt #keycloak #utn  
 **Fecha:** 2026-08-27  
@@ -116,6 +116,55 @@ curl -X POST https://keycloak.example.com/realms/myrealm/protocol/openid-connect
 
 ---
 *Conexiones conceptuales:*
-- Seguridad y Validación en OIDC / OAuth2
-- Obtención y Tipos de Tokens
-- Glosario Maestro: JWT y Keycloak
+- [[2026-08-13_seguridad_y_validacion_oidc_oauth2|Seguridad y Validación en OIDC / OAuth2]]
+- [[2026-08-13_obtencion_y_tipos_de_tokens|Obtención y Tipos de Tokens]]
+- [[2026-08-20_conclusion_y_glosario_maestro_jwt_keycloak|Glosario Maestro: JWT y Keycloak]]
+
+---
+
+## 📝 2026-09-10 - Laboratorio Práctico: Implementación PKCE desde Cero con Keycloak y SPA
+
+### 🎯 1. Objetivos del Laboratorio
+1. Configurar un **Cliente Público OIDC** en Keycloak sin secreto de cliente (`Client authentication: OFF`).
+2. Demostrar el canje de `authorization_code` mediante Postman enviando `code_verifier` correspondiente al `code_challenge` (S256).
+3. Documentar los 4 errores típicos de seguridad OIDC / PKCE (`invalid_grant`, `invalid_client`).
+4. Implementar una **Single Page Application (SPA)** nativa que corra en `http://localhost:4200` y ejecute el flujo PKCE dinámico con la Web Crypto API.
+
+---
+
+### ⚙️ 2. Configuración del Cliente Público en Keycloak
+* **Realm:** `dds-materia`
+* **Client ID:** `spa-69650-martinsciarra`
+* **Client Authentication:** `OFF` *(Cliente público: no posee ni requiere client_secret)*
+* **Standard Flow Enabled:** `ON` *(Habilita Authorization Code Flow)*
+* **Direct Access Grants:** `OFF`
+* **Implicit Flow:** `OFF`
+* **Service Accounts:** `OFF`
+* **Valid Redirect URIs:** `http://localhost:4200/*`
+* **Web Origins (CORS):** `*`, `+`, `http://localhost:4200`
+
+---
+
+### 🧪 3. Matriz de Errores OIDC / PKCE Verificados
+
+| Escenario | Parámetro Modificado | Respuesta de Keycloak | Causa de Seguridad |
+| :--- | :--- | :--- | :--- |
+| **1. Verifier Corrupto** | `code_verifier` alterado | `{"error": "invalid_grant", "error_description": "PKCE verification failed"}` | Previene la intercepción del código por un tercero que no conozca el verifier original. |
+| **2. Código Reutilizado** | Mismo `code` enviado dos veces | `{"error": "invalid_grant", "error_description": "Code not valid"}` | El código de autorización es de un solo uso (Single-Use). |
+| **3. Redirect URI Mismatch** | `redirect_uri` no registrada | `{"error": "invalid_grant", "error_description": "Redirect URI mismatch"}` | Evita vectores de ataque Open Redirector hacia dominios maliciosos. |
+| **4. Cliente Desconocido** | `client_id` erróneo | `{"error": "invalid_client", "error_description": "Client not found"}` | El Identity Provider desconoce a la aplicación solicitante. |
+
+---
+
+### 💻 4. Implementación SPA (`iaew-spa-pkce`)
+* **Ubicación:** `iaew-spa-pkce/`
+* **Servidor Local:** Node.js HTTP escuchando en `http://localhost:4200` con fallback de routing SPA para `/login-callback`.
+* **Motor Criptográfico:** `window.crypto.subtle.digest('SHA-256')` para generar el `code_challenge` en tiempo de ejecución en el navegador.
+* **Funcionalidades en Vivo:**
+  - Login delegado con redirección dinámica a Keycloak.
+  - Intercepción de callback en `/login-callback` y canje POST `/token` vía `fetch()`.
+  - Inspección de claims en JWT (`access_token`, `id_token`).
+  - Botón de consulta a `/protocol/openid-connect/userinfo` con `Bearer` token.
+  - Renovación de credenciales vía `refresh_token`.
+  - Simulación de ataque PKCE en interfaz para demostración interactiva.
+

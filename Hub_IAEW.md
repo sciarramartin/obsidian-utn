@@ -39,6 +39,8 @@
 * [[2026-08-24_actividad_clase_02_ecommerce_api_rest_mongodb|Clase 02: API REST E-commerce con MongoDB]]
 * [[2026-08-31_actividad_clase_03_seguridad_api_middlewares_roles|Clase 03: Seguridad con Middlewares, Roles y API Keys]]
 * [[2026-09-03_flujo_password_deprecado_y_pkce_oauth2|Clase 04: Flujo Password en Keycloak/Postman y Fundamentos PKCE]]
+* [[2026-09-10_actividad_clase_05_pkce_keycloak_spa|Clase 05: Flujo PKCE desde Cero con Keycloak y SPA]]
+
 
 ### ❓ 4. Banco de Preguntas de Examen
 * [[2026-08-24_preguntas_examen_clase_02_api_mongodb|Preguntas Clase 02: APIs y Reglas de Negocio]]

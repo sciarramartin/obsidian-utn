@@ -1,0 +1,19 @@
+{
+  "name": "iaew-spa-pkce",
+  "version": "1.0.0",
+  "description": "Single Page Application con flujo OIDC Authorization Code + PKCE para UTN FRC IAEW",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "iaew",
+    "utn",
+    "oidc",
+    "pkce",
+    "keycloak",
+    "spa"
+  ],
+  "author": "Martin Sciarra",
+  "license": "MIT"
+}
