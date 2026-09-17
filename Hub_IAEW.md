@@ -29,6 +29,14 @@
 * [[2026-08-27_ldap_protocolo_directorio_e_integracion_oidc|Protocolo LDAP y su Integración con OIDC]]
 * [[2026-08-31_seguridad_apis_middlewares_rbac_ia|Seguridad en APIs: Middlewares, RBAC y Gobierno de IA]]
 * [[2026-09-03_flujo_password_deprecado_y_pkce_oauth2|Flujo Password (Deprecado), Gestión de Secretos y PKCE]]
+* [[2026-09-17_oauth2_device_authorization_grant|OAuth 2.0: Device Authorization Grant (Smart TVs y CLIs)]]
+* [[2026-09-17_validacion_local_jwks_vs_introspect|Seguridad en APIs: Validación Local con JWKS vs. Introspección (/introspect)]]
+* [[2026-09-17_oauth2_oidc_matriz_flujos_y_arquitectura|Matriz de Flujos OAuth 2.0 y OIDC: Cuándo Usar Cada Flujo]]
+* [[2026-09-17_casos_reales_flujos_oauth2_keycloak|Casos Reales y Cotidianos de Flujos OAuth 2.0 / Keycloak]]
+* [[2026-09-17_resumen_maestro_seguridad_oidc_resiliencia|Resumen Maestro: Seguridad OIDC, Flujos OAuth 2.0 y Resiliencia de Integraciones]]
+
+
+
 
 ### 📝 3. Bitácoras y Laboratorios de Cursada
 * [[2026-08-10_integracion_aplicaciones_web_utn_frc|Ficha de la Cátedra IAEW]]

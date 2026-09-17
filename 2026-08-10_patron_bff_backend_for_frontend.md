@@ -1,4 +1,4 @@
-﻿# Patrón de Arquitectura: Backend For Frontend (BFF)
+# Patrón de Arquitectura: Backend For Frontend (BFF)
 **Rama:** [[Hub_IAEW|IAEW]]
 
 **Materia:** Integración de Aplicaciones en Entorno Web (UTN FRC)  
@@ -150,3 +150,21 @@ En JavaScript, `Promise.all([ fetch1, fetch2, fetch3 ])` **dispara las 3 consult
 ### ⏱️ Comparación de Tiempos:
 - **Celular directo (Secuencial):** `[--- 100ms ---] -> [--- 100ms ---] -> [--- 100ms ---]` = **300 ms**
 - **Servidor BFF (Paralelo):** `[--- 10ms ---]` (las 3 se ejecutan al mismo tiempo) = **10 ms**
+
+---
+
+## 📝 2026-09-17 - Profundización: BFF vs. API Gateway y Seguridad OIDC
+
+### 1. ¿Cuál es la diferencia entre un API Gateway y un BFF?
+* **API Gateway Tradicional:** Es un componente central y genérico para toda la organización (gestionado por el equipo de Infraestructura/DevOps). Se ocupa de tareas transversales: enrutamiento, rate limiting, TLS termination, cortafuegos y balanceo de carga.
+* **BFF (Backend For Frontend):** Es un componente específico para una experiencia de usuario particular (gestionado por el **mismo equipo que desarrolla la UI frontend**). Su objetivo es la lógica de agregación, formateo de payloads para la pantalla y adaptación del ciclo de vida del cliente.
+* *En arquitecturas maduras suelen coexistir:* Los clientes acceden a través de un API Gateway que enruta hacia el BFF correspondiente (Web o Móvil), y este orquesta los microservicios.
+
+### 2. El rol de BFF en la Seguridad Moderna (Patrón Token Handler):
+En aplicaciones web (SPAs), guardar un `access_token` o `refresh_token` en `localStorage` o `sessionStorage` expone las credenciales a ataques de XSS (Cross-Site Scripting).  
+Con el patrón **BFF Seguro (Token Handler)**:
+1. El BFF se ejecuta en el backend y actúa como cliente confidencial OIDC.
+2. Maneja los tokens JWT de Keycloak o Auth0 internamente en memoria o sesión segura del servidor.
+3. El frontend (SPA en el navegador) solo se comunica con el BFF mediante **cookies seguras `HttpOnly`, `Secure` y `SameSite=Strict`**.
+4. El BFF intercepta las solicitudes del navegador, reemplaza la cookie por el encabezado `Authorization: Bearer <access_token>` y reenvía la petición a los microservicios protegidos.
+
