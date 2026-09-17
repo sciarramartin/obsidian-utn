@@ -66,6 +66,21 @@ const pedidoSchema = new mongoose.Schema(
     },
     notificadoEn: {
       type: Date
+    },
+    confirmacionIdempotencyKey: {
+      type: String,
+      unique: true,
+      sparse: true // los pedidos pendientes no tienen clave; sparse evita colisión entre ellos
+    },
+    confirmacionEvento: {
+      type: new mongoose.Schema({
+        eventId: String,
+        type: String, // se usa mongoose.Schema para que 'type' no sea interpretado como tipo Mongoose
+        version: Number,
+        occurredAt: String,
+        data: { pedidoId: String }
+      }, { _id: false }),
+      default: undefined
     }
   },
   { timestamps: true }

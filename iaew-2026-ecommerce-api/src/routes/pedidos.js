@@ -6,6 +6,8 @@ const Producto = require('../models/Producto');
 
 const { requireScope } = require('../middleware/auth0');
 const { publishPedidoConfirmado } = require('../lib/rabbit');
+const { validateIdempotencyKey } = require('../lib/idempotency');
+const { sendError } = require('../lib/errors');
 const router = express.Router();
 
 router.get('/', requireScope('read:pedidos'), async (req, res) => {
@@ -78,8 +80,43 @@ router.post('/:id/confirmar', requireScope('confirm:pedidos'), async (req, res) 
       return res.status(404).json({ error: 'Pedido no encontrado' });
     }
 
-    if (pedido.estado !== 'pendiente') {
-      return res.status(409).json({ error: 'El pedido ya fue confirmado' });
+    // 1. Validar el header Idempotency-Key
+    const key = req.header('Idempotency-Key');
+    const invalidKey = validateIdempotencyKey(key);
+    if (invalidKey) {
+      return sendError(
+        res,
+        400,
+        invalidKey.error,
+        invalidKey.code,
+        false,
+        'Enviar una clave válida y estable por operación',
+        invalidKey.details
+      );
+    }
+
+    // 2. Replay: misma clave en pedido ya confirmado -> devolver resultado guardado
+    if (
+      pedido.estado === 'confirmado' &&
+      pedido.confirmacionIdempotencyKey === key &&
+      pedido.confirmacionEvento?.eventId
+    ) {
+      res.set('Idempotency-Replayed', 'true');
+      return res.status(200).json({
+        pedido,
+        evento: pedido.confirmacionEvento,
+        idempotencia: { key, replayed: true }
+      });
+    }
+
+    // 3. Conflicto: pedido confirmado con otra clave
+    if (pedido.estado === 'confirmado') {
+      return res.status(409).json({
+        error: 'El pedido ya fue confirmado con otra clave',
+        code: 'IDEMPOTENCY_KEY_MISMATCH',
+        retryable: false,
+        action: 'Consultar el pedido y no generar una nueva confirmación'
+      });
     }
 
     for (const item of pedido.items) {
@@ -100,7 +137,6 @@ router.post('/:id/confirmar', requireScope('confirm:pedidos'), async (req, res) 
 
     pedido.estado = 'confirmado';
     pedido.confirmadoEn = new Date();
-    await pedido.save();
 
     const evento = {
       eventId: crypto.randomUUID(),
@@ -110,17 +146,40 @@ router.post('/:id/confirmar', requireScope('confirm:pedidos'), async (req, res) 
       data: { pedidoId: pedido.id }
     };
 
+    pedido.confirmacionIdempotencyKey = key;
+    pedido.confirmacionEvento = evento;
+
     try {
-      await publishPedidoConfirmado(evento);
-    } catch (rabbitError) {
-      return res.status(503).json({
-        error: 'Servicio de mensajería no disponible. El pedido puede haber quedado confirmado.',
-        pedidoId: pedido.id,
-        detalle: rabbitError.message
-      });
+      await pedido.save();
+    } catch (error) {
+      if (error?.code === 11000) {
+        return sendError(
+          res,
+          409,
+          'La clave de idempotencia ya fue usada en otro pedido',
+          'IDEMPOTENCY_KEY_REUSED',
+          false,
+          'Usar una clave distinta por operación'
+        );
+      }
+      throw error;
     }
 
-    res.json({ pedido, evento });
+    try {
+      await publishPedidoConfirmado(evento);
+      res.set('Idempotency-Replayed', 'false');
+      return res.status(200).json({
+        pedido,
+        evento,
+        idempotencia: { key, replayed: false }
+      });
+    } catch (error) {
+      console.error('Pedido confirmado, pero no se pudo publicar el evento:', error.message);
+      return res.status(503).json({
+        error: 'El pedido quedó confirmado, pero no se pudo publicar la notificación.',
+        pedido
+      });
+    }
   } catch (error) {
     res.status(500).json({ error: 'Error al confirmar pedido' });
   }

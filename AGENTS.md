@@ -14,6 +14,7 @@
 * **🟣 Rama IAEW:** `Hub_IAEW.md` (Tag `#materia/iaew`, enlace `**Rama:** [[Hub_IAEW|IAEW]]`).
 * **🟢 Rama Emprendimientos Tecnológicos:** `Hub_Emprendimientos_Tecnologicos.md` (Tag `#materia/emprendimientos-tecnologicos`, incluye FarmaLink, enlace `**Rama:** [[Hub_Emprendimientos_Tecnologicos|Emprendimientos Tecnológicos]]`).
 * **🟠 Rama Contenido General UTN:** `Hub_UTN_General.md` (Tag `#materia/pps` o `#utn/general`, incluye PPS 200hs y Servidores MCP, enlace `**Rama:** [[Hub_UTN_General|Contenido General UTN]]`).
+* **🔵 Rama Project Manager / Proyecto Final:** `Hub_Project_Manager.md` (Tag `#materia/proyecto-final` o `#materia/project-manager`, enlace `**Rama:** [[Hub_Project_Manager|Project Manager]]`).
 
 ---
 

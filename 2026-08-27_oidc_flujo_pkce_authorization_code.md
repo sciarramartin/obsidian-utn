@@ -168,3 +168,93 @@ curl -X POST https://keycloak.example.com/realms/myrealm/protocol/openid-connect
   - Renovación de credenciales vía `refresh_token`.
   - Simulación de ataque PKCE en interfaz para demostración interactiva.
 
+---
+
+## 📝 [2026-09-15] - Profundización: ¿Qué resuelven OIDC y PKCE si el JWT ya resuelve el rendimiento?
+
+### ❓ La Duda Conceptual:
+*Si el JWT ya evita los cuellos de botella en la base de datos gracias a su validación matemática en memoria (Stateless), ¿para qué necesitamos OIDC y PKCE? ¿Qué problema vienen a solucionar?*
+
+---
+
+### 💡 La Distinción Clave: Rendimiento vs. Seguridad y Arquitectura
+
+| Tecnología | Dimensión que resuelve | Pregunta que responde |
+| :--- | :--- | :--- |
+| **JWT** | **Rendimiento / Transporte** (Formato de datos) | *¿Cómo viajan los permisos sin saturar la BD en cada petición?* |
+| **OIDC** | **Identidad / Arquitectura** (Protocolo de autenticación) | *¿Quién es el usuario y cómo evito que mi API gestione contraseñas?* |
+| **PKCE** | **Seguridad Criptográfica** (Protección del canal público) | *¿Cómo evito que un atacante robe el token en una SPA o App móvil?* |
+
+> [!NOTE]
+> **JWT es solo un contenedor (un "formato de pasaporte").**  
+> Que el pasaporte sea liviano y fácil de leer en aduana (Stateless) no resuelve **quién emite el pasaporte**, **cómo se valida la identidad del ciudadano de forma segura** ni **cómo evitar que te roben el pasaporte en el camino**. De eso se encargan OIDC y PKCE.
+
+---
+
+### 🏛️ 1. ¿Qué problema soluciona OIDC (OpenID Connect)?
+
+En un "login casero" tradicional:
+1. **Tu backend manipula contraseñas directas:** Recibe contraseñas en texto plano por HTTP, las hashea, gestiona el recupero de contraseña, bloqueos por fuerza bruta, y almacenamiento sensible. Si hackean tu base de datos, roban los hashes de todos tus usuarios.
+2. **Imposibilidad de Single Sign-On (SSO):** Si tu empresa tiene 4 aplicaciones (Tienda Web, App Móvil, Panel Administrativo, CRM), el usuario tendría que crearse 4 cuentas o tus 4 backends tendrían que compartir la misma base de datos acoplada.
+3. **Falta de funcionalidades modernas:** Implementar autenticación de dos factores (MFA/2FA), inicio de sesión con Google/GitHub o biometría requiere escribir miles de líneas de código propenso a fallas en cada aplicación.
+
+**Lo que OIDC soluciona:**
+* **Desacoplamiento total de credenciales:** Tu API y tu frontend **NUNCA tocan la contraseña del usuario**. El usuario se loguea en el IdP (Keycloak, Google, etc.).
+* **Estandarización de Identidad:** Introduce el **`id_token`** y el endpoint `/userinfo`, entregando nombre, email, roles y foto de perfil en un estándar universal (RFC).
+* **SSO y MFA centralizados:** Te da inicio de sesión único entre múltiples sistemas y soporte para 2FA/WebAuthn sin cambiar una sola línea del backend de negocio.
+
+---
+
+### 🛡️ 2. ¿Qué problema soluciona PKCE (Proof Key for Code Exchange)?
+
+OAuth 2.0 tradicional se diseñó pensando en clientes confiables (*Confidential Clients*): servidores backend que pueden ocultar un `client_secret` en sus variables de entorno.
+
+Pero con la llegada de las **SPAs (React, Angular, Vue)** y las **Apps Móviles (iOS, Android)**, surgió un dilema de seguridad crítico: **son Clientes Públicos**.
+
+#### El Ataque de Intercepción de Código (Sin PKCE):
+```
+[Navegador / Móvil] ────(1) Inicia Login────► [Keycloak / IdP]
+[Navegador / Móvil] ◄───(2) Redirige con ?code=XYZ ─── [Keycloak / IdP]
+         │
+         ▼ ¡INTERCEPCIÓN!
+   (App Maliciosa en Android intercepta el esquema 'miapp://'
+    o Extensión maliciosa de Chrome lee la URL)
+         │
+         ▼
+[Atacante] ───(3) Canjea POST /token con code=XYZ ───► [Keycloak / IdP]
+[Atacante] ◄──(4) Recibe Access Token y roba la cuenta ── [Keycloak / IdP]
+```
+
+Como la SPA o app móvil no puede tener un secreto guardado (cualquiera abriría DevTools o descompilaría el `.apk`), el IdP le entregaba el token a quien tuviera el `code`.
+
+#### La Solución de PKCE (RFC 7636):
+PKCE crea un **secreto dinámico de un solo uso en tiempo de ejecución**:
+1. La SPA genera un secreto en memoria (`code_verifier`) y envía solo su hash criptográfico (`code_challenge = SHA256(verifier)`) al IdP.
+2. Cuando el IdP redirige con el `code`, **si un atacante lo intercepta, NO LE SIRVE DE NADA**.
+3. Para canjear el `code`, el IdP exige enviar el `code_verifier` en texto plano.
+4. El atacante no puede adivinar el `code_verifier` (es una función hash unidireccional SHA-256). Solo la pestaña legítima que inició el flujo lo tiene en memoria.
+5. El IdP calcula `SHA256(verifier)` y verifica que coincida con el challenge guardado. Si coincide, emite los tokens.
+
+---
+
+### 🧩 Conclusión: La Sinergia Perfecta
+
+```
+┌─────────────────────────┐
+│     OPENID CONNECT      │ ──► Garantiza QUIÉN ES el usuario (Identidad, SSO, MFA)
+│         (OIDC)          │     sin que tu API toque contraseñas.
+└────────────┬────────────┘
+             │
+             ▼
+┌─────────────────────────┐
+│          PKCE           │ ──► Garantiza CÓMO VIAJA la entrega del token al frontend
+│       (RFC 7636)        │     blindando el canje contra robo o intercepción de código.
+└────────────┬────────────┘
+             │
+             ▼
+┌─────────────────────────┐
+│       JWT BEARER        │ ──► Garantiza CÓMO SE CONSUME la API con alto rendimiento,
+│       (Stateless)       │     permitiendo validar permisos en RAM sin saturar la BD.
+└─────────────────────────┘
+```
+
