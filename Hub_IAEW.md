@@ -49,6 +49,7 @@
 * [[2026-09-03_flujo_password_deprecado_y_pkce_oauth2|Clase 04: Flujo Password en Keycloak/Postman y Fundamentos PKCE]]
 * [[2026-09-10_actividad_clase_05_pkce_keycloak_spa|Clase 05 (AIM): Flujo PKCE desde Cero con Keycloak y SPA]]
 * [[2026-09-17_actividad_clase_05_resiliencia_idempotencia_retry_dlq|Clase 05 (E-commerce): Resiliencia de Integraciones, Idempotencia y DLQ]]
+* [[2026-09-17_instructivo_clase_05_resiliencia_paso_a_paso|Instructivo Paso a Paso: Laboratorio Clase 05 (Resiliencia)]]
 
 
 
