@@ -34,6 +34,7 @@
 * [[2026-09-17_oauth2_oidc_matriz_flujos_y_arquitectura|Matriz de Flujos OAuth 2.0 y OIDC: Cuándo Usar Cada Flujo]]
 * [[2026-09-17_casos_reales_flujos_oauth2_keycloak|Casos Reales y Cotidianos de Flujos OAuth 2.0 / Keycloak]]
 * [[2026-09-17_resumen_maestro_seguridad_oidc_resiliencia|Resumen Maestro: Seguridad OIDC, Flujos OAuth 2.0 y Resiliencia de Integraciones]]
+* [[2026-09-25_actividad_cifrado_firma_kleopatra_openpgp|Cifrado y Firma Digital con Kleopatra (OpenPGP)]]
 
 
 
@@ -50,6 +51,7 @@
 * [[2026-09-10_actividad_clase_05_pkce_keycloak_spa|Clase 05 (AIM): Flujo PKCE desde Cero con Keycloak y SPA]]
 * [[2026-09-17_actividad_clase_05_resiliencia_idempotencia_retry_dlq|Clase 05 (E-commerce): Resiliencia de Integraciones, Idempotencia y DLQ]]
 * [[2026-09-17_instructivo_clase_05_resiliencia_paso_a_paso|Instructivo Paso a Paso: Laboratorio Clase 05 (Resiliencia)]]
+* [[2026-09-25_actividad_cifrado_firma_kleopatra_openpgp|Laboratorio: Cifrado y Firma Digital con Kleopatra (OpenPGP)]]
 
 
 
