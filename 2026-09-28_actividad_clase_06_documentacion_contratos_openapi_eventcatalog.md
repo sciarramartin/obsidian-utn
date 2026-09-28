@@ -97,6 +97,30 @@ flowchart TD
 
 ---
 
+## 💡 6. Lecciones Aprendidas de Ingeniería y Troubleshooting en la Práctica
+
+### 🛠️ 6.1. Validación de Sintaxis vs. Suites de Test
+* Cuando un repositorio carece de una suite automatizada en `package.json` o está en transición, el uso de `node --check <archivo>` permite comprobar estáticamente la sintaxis de archivos JavaScript críticos (`src/app.js`, `src/worker.js`, `src/routes/pedidos.js`) en milisegundos sin necesidad de instanciar la base de datos ni brokers.
+
+### 🌐 6.2. Montaje y Desacoplamiento de Swagger UI
+* Para evitar redundancia y desincronización, la especificación se almacena como archivo JSON estático (`docs/openapi.json`) y se monta mediante `swagger-ui-express` directamente en Express:
+  ```javascript
+  const openapiDocument = JSON.parse(fs.readFileSync(path.join(__dirname, '../docs/openapi.json'), 'utf8'));
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDocument));
+  app.get('/api-docs/openapi.json', (req, res) => res.json(openapiDocument));
+  ```
+* Esto permite exponer tanto la interfaz interactiva para humanos (`/api-docs/`) como el contrato en crudo para herramientas automatizadas (`/api-docs/openapi.json`).
+
+### 📐 6.3. Validación Estricta con AJV CLI (JSON Schema Draft 2020-12)
+* La directiva `"additionalProperties": false` en JSON Schema es fundamental en sistemas de mensajería: previene que clientes o productores envíen atributos adicionales que ensucien o quiebren la compatibilidad entre versiones del evento.
+* La validación local se ejecuta mediante `npx --yes -p ajv-cli@5 -p ajv-formats ajv validate --spec=draft2020 -c ajv-formats -s <schema> -d <ejemplo>`, asegurando verificación determinista en pipelines de integración continua.
+
+### 📦 6.4. Sanitización y Calidad en Entregables Académicos y Profesionales
+* **Limpieza de Historial Heredado:** En laboratorios iterativos, los repositorios acumulan evidencias de clases previas (capturas y reportes de Clase 04 y 05). Sanitizar la carpeta `evidencias/` eliminando artefactos obsoletos evita confusión al evaluador y reduce el peso del entregable (en este caso, de 1.59 MB a 187 KB).
+* **Exclusión de Secretos y Dependencias:** Jamás incluir `node_modules`, archivos `.env` con credenciales reales ni carpetas de compilación local (`.astro`, `dist`) en los archivos comprimidos de entrega.
+
+---
+
 *Conexiones conceptuales:*
 - [[2026-09-17_actividad_clase_05_resiliencia_idempotencia_retry_dlq|Clase 05: Resiliencia de Integraciones, Idempotencia y DLQ]]
 - [[2026-09-17_instructivo_clase_05_resiliencia_paso_a_paso|Instructivo Paso a Paso: Laboratorio Clase 05]]
