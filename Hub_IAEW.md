@@ -52,6 +52,7 @@
 * [[2026-09-17_actividad_clase_05_resiliencia_idempotencia_retry_dlq|Clase 05 (E-commerce): Resiliencia de Integraciones, Idempotencia y DLQ]]
 * [[2026-09-17_instructivo_clase_05_resiliencia_paso_a_paso|Instructivo Paso a Paso: Laboratorio Clase 05 (Resiliencia)]]
 * [[2026-09-25_actividad_cifrado_firma_kleopatra_openpgp|Laboratorio: Cifrado y Firma Digital con Kleopatra (OpenPGP)]]
+* [[2026-09-28_actividad_clase_06_documentacion_contratos_openapi_eventcatalog|Clase 06: Documentación de Contratos y Eventos (OpenAPI 3.1, JSON Schema y EventCatalog)]]
 
 
 

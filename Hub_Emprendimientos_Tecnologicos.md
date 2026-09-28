@@ -10,6 +10,7 @@
 * [[2026-08-14_emprendimientos_tecnologicos_utn_frc|Ficha de la Asignatura Emprendimientos]]
 * [[2026-08-14_metodologia_organizaciones_exponenciales_exo|Metodología de Organizaciones Exponenciales (ExO) & Launchpad]]
 * [[2026-08-28_sprint_1_actividades_metodologia_exo|Sprint 1: Actividades ExO / Lean Startup]]
+* [[2026-09-26_sprint_2_actividades_metodologia_exo|Sprint 2: Actividades ExO / Lean Startup y Validación]]
 
 ---
 
