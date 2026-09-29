@@ -1,7 +1,12 @@
 # 📋 Encuesta de Validación de Idea FarmaLink / FastPharm
 
+**Materia Hub:** [[Hub_Emprendimientos_Tecnologicos|Emprendimientos Tecnológicos]]  
+**MOC Principal:** [[00_Indice_Maestro|Mi Segundo Cerebro]]  
+**Tags:** #materia/emprendimientos-tecnologicos #sprint2 #encuesta #the-mom-test #farmalink  
+**Fecha:** 2026-09-28  
+
 > **Instrumento de Validación de Problema y Modelo de Negocio (Sprint 2)**  
-> Versión compacta y estructurada para captura de pantalla y relevamiento en campo.
+> Versión compacta y estructurada para captura de pantalla y relevamiento en campo (12 preguntas oficiales Google Forms).
 
 ---
 

@@ -1,5 +1,10 @@
 # 📊 Reporte Ejecutivo de Validación: Resultados de Encuesta FarmaLink / FastPharm
 
+**Materia Hub:** [[Hub_Emprendimientos_Tecnologicos|Emprendimientos Tecnológicos]]  
+**MOC Principal:** [[00_Indice_Maestro|Mi Segundo Cerebro]]  
+**Tags:** #materia/emprendimientos-tecnologicos #sprint2 #metricas #graficos #farmalink #lean-startup  
+**Fecha:** 2026-09-28  
+
 > **Sprint 2 — Emprendimientos Tecnológicos (Metodología ExO Launchpad)**  
 > **Objetivo:** Validación cuantitativa y cualitativa del problema (Customer Discovery) mediante entrevistas y encuestas estructuradas a **15 Pacientes (B2C)** y relevamiento de campo real con Google Forms / Excel a **5 Farmacias Independientes de Barrio (B2B)**.
 

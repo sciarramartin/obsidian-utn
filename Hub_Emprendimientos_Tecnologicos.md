@@ -16,10 +16,17 @@
 
 ## 💊 Proyecto de Cursada: FarmaLink (Recetas Electrónicas)
 
+### Sprint 1: Ideación y Modelado Inicial
 * [[2026-08-28_idea_proyecto_plataforma_farmacias_receta_electronica|Idea de Proyecto: FarmaLink]]
 * [[2026-08-30_idea_preliminar_plataforma_farmacias_recetas|Alcance, Flujo y Tablero Farmacias / Pacientes]]
 * [[2026-08-31_bmc_postits_plataforma_farmacias|Business Model Canvas: Post-its del Tablero FarmaLink]]
+
+### Sprint 2: Validación de Problema (Customer Discovery) & Defensa
 * [[2026-09-06_banco_preguntas_encuesta_farmalink|Banco de Preguntas para Encuestas y Validación]]
+* [[2026-09-27_encuesta_validacion_problema_the_mom_test|Diseño de Entrevistas de Problema (The Mom Test)]]
+* [[encuestas_compactas_farmalink|Encuesta Oficial Google Forms (12 Preguntas Estructuradas)]]
+* [[2026-09-27_reporte_graficos_encuesta_farmalink|Reporte Gráfico y Métricas Reales: N=15 Pacientes y N=5 Farmacias]]
+* [[2026-09-28_resumen_defensa_sprint_2_farmalink|Guión de Defensa Oral, Claves por Bloque y Post-its Lámina 15]]
 
 ---
 
