@@ -62,6 +62,15 @@ graph TD
   * Responsabilidad compartida en la nube.
 * [[2026-08-13_que_es_una_pipeline|¿Qué es una Pipeline de CI/CD?]]
   * Automatización de Build, Test y Deploy.
+* [[2026-08-13_obtencion_y_tipos_de_tokens|Clase 01 (AIM / YouTube): Tokens JWT y Keycloak IDP]]
+  * Servidor IDP UTN FRC: `lapsis.frc.utn.edu.ar` (Consola de Administración de Realms).
+  * Endpoint estándar `.well-known/openid-configuration` (Well-Known Configuration Endpoint).
+  * Estructura del JWT: **Header** (algoritmo y tipo), **Payload** (claims: iss, sub, aud, exp) y **Signature**.
+  * **Token de Usuario** (identidad y permisos del usuario final) vs. **Token de Aplicación** (M2M entre sistemas sin usuario).
+  * **Validación Local (JWKS):** Criptográfica con claves públicas locales, rápida, sin latencia de red ni sobrecarga al IDP.
+  * **Validación Remota (`/introspect`):** Consulta HTTP sincrónica al IDP en cada request; detecta revocación instantánea pero agrega latencia y crea un punto único de falla.
+  * Ejemplos cotidianos: Mercado Libre (IDP propio), Naranja X, Personal Pay.
+
 
 ---
 
@@ -105,15 +114,22 @@ graph TD
 
 ## 📅 5. Clase 05: Resiliencia de Integraciones, Idempotencia y DLQ
 * [[2026-09-17_actividad_clase_05_resiliencia_idempotencia_retry_dlq|Clase 05: Resiliencia de Integraciones, Idempotencia y DLQ]]
-  * **Idempotencia Técnica en HTTP:** Cabecera `Idempotency-Key` con índice `unique` y `sparse: true` en MongoDB.
-  * **Idempotencia de Negocio en Mensajería:** Deduplicación mediante `eventId` en colección `EventoProcesado`.
+  * **Mapa de Fallas:** Tarde (timeout ambiguo), Duplicada, Parcial (falla dual-write), Indisponible, Permanente (*Poison Message*).
+  * **Las 3 Preguntas Previas al Reintento:** ¿Es transitoria?, ¿Es segura de repetir (idempotente)?, ¿Cómo verifico el resultado anterior?
+  * **Idempotencia Técnica en HTTP:** Cabecera `Idempotency-Key` (8-128 chars), índice `unique` y `sparse: true` en MongoDB (`confirmacionIdempotencyKey`), cabecera de respuesta `Idempotency-Replayed: false` (primera vez) / `true` (replay idéntico con mismo `eventId`).
+  * **Matriz de Errores HTTP:** `400` (`REQUIRED`/`INVALID`), `200` (OK/Replay), `409` (`MISMATCH` en mismo pedido / `REUSED` en otro pedido).
+  * **Idempotencia de Negocio en Mensajería:** Deduplicación mediante `eventId` (hecho de negocio) vs. `Idempotency-Key` (intención HTTP) en colección `EventoProcesado`.
+  * **Estructura de Error Operable:** JSON con `error`, `code`, `details`, `retryable` y `action`.
   * **Topología de Retry con TTL en RabbitMQ:**
-    * Cola Principal $\rightarrow$ Cola de Retry (`TTL=3000ms`) $\rightarrow$ Reingreso por Dead-Letter a Cola Principal.
+    * Cola Principal $\rightarrow$ Cola de Retry (`TTL=3000ms`, cabecera `x-retry-count`) $\rightarrow$ Reingreso por Dead-Letter a Cola Principal.
     * Límite de reintentos (`MAX_RETRIES=3`).
-  * **Dead Letter Queue (DLQ):** Destino final para mensajes venenosos (*poison messages*) o reintentos agotados.
+  * **Dead Letter Queue (DLQ):** Exchange `pedidos.dlx`, cola `notificaciones.pedido-confirmado.dlq`. Aislamiento de mensajes venenosos (*poison messages*) o reintentos agotados.
   * **Peligro de `nack(requeue=true)`:** Por qué genera loops infinitos al 100% de CPU.
   * **Garantía At-Least-Once:** Reentrega de mensajes y deduplicación obligatoria en el consumidor.
+  * **Patrón Transaccional Outbox:** Solución al *Dual Write* entre MongoDB y RabbitMQ sin 2PC.
+  * **Resiliencia para Agentes de IA:** Mitigación de context-drift, llamadas a herramientas (*tool calling*) idempotentes y parsing estricto con schemas JSON.
 * [[2026-09-17_instructivo_clase_05_resiliencia_paso_a_paso|Instructivo Paso a Paso: Laboratorio Clase 05]]
+
 
 ---
 
