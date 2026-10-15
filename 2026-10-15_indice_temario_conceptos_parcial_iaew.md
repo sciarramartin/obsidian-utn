@@ -10,31 +10,36 @@
 ## 📌 Guía Rápida de Estudio: Estructura del Temario
 
 ```mermaid
-mindmap
-  root((Temario Parcial IAEW))
-    1. Arquitectura & APIs
-      Clase 01: Conceptos & BFF
-      Clase 02: API REST & MongoDB
-      Clase 06: OpenAPI 3.1 & EventCatalog
-    2. Mensajería & Asincronismo
-      Clase 04: RabbitMQ & Workers
-      Clase 05: Idempotencia & DLQ
-    3. Seguridad & Identidad
-      Clase 03: Middlewares & RBAC
-      Clase 04/05: OIDC, OAuth 2.0 & PKCE
-      SAML 2.0 & LDAP
-      Kleopatra: OpenPGP & Firmas
-    4. Resiliencia en Sistemas Distribuidos
-      Retry & Exponential Backoff
-      Timeout & SLAs
-      Circuit Breaker
-      Bulkhead & Blast Radius
-    5. Ciberseguridad & Gobernanza
-      Tríada CIA & Ecuación de Riesgo
-      Ingeniería Social & BEC
-      EDR vs. SIEM
-      Ransomware & Backups 3-2-1
-      Biometría 2026
+graph TD
+    Root["🎯 Temario Parcial IAEW"]
+
+    Root --> M1["1. Arquitectura & APIs"]
+    M1 --> C01["Clase 01: Conceptos & BFF"]
+    M1 --> C02["Clase 02: API REST & MongoDB"]
+    M1 --> C06["Clase 06: OpenAPI 3.1 & EventCatalog"]
+
+    Root --> M2["2. Mensajería & Asincronismo"]
+    M2 --> C04["Clase 04: RabbitMQ & Workers"]
+    M2 --> C05["Clase 05: Idempotencia & DLQ"]
+
+    Root --> M3["3. Seguridad & Identidad"]
+    M3 --> C03["Clase 03: Middlewares & RBAC"]
+    M3 --> COIDC["OIDC, OAuth 2.0 & PKCE"]
+    M3 --> CSAML["SAML 2.0 & LDAP"]
+    M3 --> CKLEO["Kleopatra: OpenPGP & Firmas"]
+
+    Root --> M4["4. Patrones de Resiliencia"]
+    M4 --> R_RT["Retry & Exponential Backoff"]
+    M4 --> R_TO["Timeout & SLAs"]
+    M4 --> R_CB["Circuit Breaker (Closed/Open/Half-Open)"]
+    M4 --> R_BH["Bulkhead & Blast Radius"]
+
+    Root --> M5["5. Ciberseguridad & Defensa"]
+    M5 --> S_CIA["Tríada CIA & Ecuación de Riesgo"]
+    M5 --> S_SOC["Ingeniería Social & BEC"]
+    M5 --> S_EDR["EDR vs. SIEM"]
+    M5 --> S_RW["Ransomware & Backups 3-2-1"]
+    M5 --> S_BIO["Biometría 2026"]
 ```
 
 ---
