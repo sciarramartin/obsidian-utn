@@ -26,7 +26,7 @@ graph TD
 
 ## 🧭 Acceso a las Ramas
 
-* 🟣 **[[Hub_IAEW|Integración de Aplicaciones en Entorno Web (IAEW)]]** — 30 notas (APIs, OIDC, SAML, LDAP, Middlewares, RBAC, Labs).
+* 🟣 **[[Hub_IAEW|Integración de Aplicaciones en Entorno Web (IAEW)]]** — 33 notas (APIs, Resiliencia, Ciberseguridad, OIDC, SAML, LDAP, Middlewares, Labs).
 * 🟢 **[[Hub_Emprendimientos_Tecnologicos|Emprendimientos Tecnológicos]]** — 9 notas (Metodología ExO, Sprints 1 y 2, Encuestas, Métricas y Proyecto **FarmaLink**).
 * 🟠 **[[Hub_UTN_General|Contenido General de la UTN]]** — 2 notas (Instructivo de PPS 200hs y Servidor MCP UTN).
 * 🔵 **[[Hub_Project_Manager|Project Manager (Proyecto Final)]]** — Gestión de proyectos, PMBOK, metodologías ágiles y preparación de parcial.

@@ -17,6 +17,7 @@
 * [[2026-08-13_gestion_apis_ataques_ddos|Gestión de APIs y Mitigación de Ataques DDoS]]
 * [[2026-08-20_que_es_postman_y_colecciones_api|Postman y Colecciones de APIs]]
 * [[2026-08-24_docker_mongodb_contenedores_y_persistencia|Docker, MongoDB y Persistencia]]
+* [[2026-10-15_patrones_de_resiliencia_retry_timeout_circuit_breaker_bulkhead|Patrones de Resiliencia: Retry, Timeout, Circuit Breaker y Bulkhead]]
 
 ### 🛡️ 2. Seguridad, Identidad y Autenticación
 * [[2026-08-13_analogia_oidc_oauth2|Analogía OIDC y OAuth2]]
@@ -35,6 +36,7 @@
 * [[2026-09-17_casos_reales_flujos_oauth2_keycloak|Casos Reales y Cotidianos de Flujos OAuth 2.0 / Keycloak]]
 * [[2026-09-17_resumen_maestro_seguridad_oidc_resiliencia|Resumen Maestro: Seguridad OIDC, Flujos OAuth 2.0 y Resiliencia de Integraciones]]
 * [[2026-09-25_actividad_cifrado_firma_kleopatra_openpgp|Cifrado y Firma Digital con Kleopatra (OpenPGP)]]
+* [[2026-10-15_conceptos_generales_ciberseguridad_defensa_en_profundidad|Conceptos Generales de Ciberseguridad, Identidad y Defensa en Profundidad]]
 
 
 

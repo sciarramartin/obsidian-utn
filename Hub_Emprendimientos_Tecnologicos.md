@@ -11,6 +11,7 @@
 * [[2026-08-14_metodologia_organizaciones_exponenciales_exo|Metodología de Organizaciones Exponenciales (ExO) & Launchpad]]
 * [[2026-08-28_sprint_1_actividades_metodologia_exo|Sprint 1: Actividades ExO / Lean Startup]]
 * [[2026-09-26_sprint_2_actividades_metodologia_exo|Sprint 2: Actividades ExO / Lean Startup y Validación]]
+* [[2026-10-05_sprint_3_actividades_metodologia_exo|Sprint 3: Actividades ExO / Validación de Solución, OKRs y Producto]]
 
 ---
 
@@ -27,6 +28,11 @@
 * [[encuestas_compactas_farmalink|Encuesta Oficial Google Forms (12 Preguntas Estructuradas)]]
 * [[2026-09-27_reporte_graficos_encuesta_farmalink|Reporte Gráfico y Métricas Reales: N=15 Pacientes y N=5 Farmacias]]
 * [[2026-09-28_resumen_defensa_sprint_2_farmalink|Guión de Defensa Oral, Claves por Bloque y Post-its Lámina 15]]
+
+### Sprint 3: Validación de Solución (Solution Interviews) & Producto
+* [[2026-10-05_sprint_3_actividades_metodologia_exo|Sprint 3: Actividades ExO / Validación de Solución, OKRs y Producto]]
+* [[2026-10-08_encuesta_validacion_solucion_farmfast|Encuesta de Validación de Solución (Google Forms: Pacientes y Farmacias)]]
+* [[2026-10-08_guia_para_completar_el_mural_sprint_3|Guía para Completar el Mural: Post-its del Sprint 3 (Láminas 17 a 25)]]
 
 ---
 
