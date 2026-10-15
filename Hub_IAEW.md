@@ -58,7 +58,8 @@
 
 
 
-### ❓ 4. Banco de Preguntas de Examen
+### ❓ 4. Banco de Preguntas y Temarios de Examen
+* 🎯 **[[2026-10-15_indice_temario_conceptos_parcial_iaew|Temario Maestro de Repaso para el Parcial (Conceptos por Clases)]]**
 * [[2026-08-24_preguntas_examen_clase_02_api_mongodb|Preguntas Clase 02: APIs y Reglas de Negocio]]
 * [[2026-08-27_preguntas_examen_oidc_saml_ldap|Preguntas OIDC (PKCE), SAML 2.0 y LDAP]]
 * [[2026-08-31_preguntas_examen_clase_03_seguridad_rbac|Preguntas Clase 03: Seguridad y Roles]]
